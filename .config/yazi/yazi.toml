@@ -1,0 +1,11 @@
+[opener]
+handlr = [
+    { run = 'handlr open "$@"', desc = "Handlr (Smart Open)" }
+]
+
+[open]
+rules = [
+    # Handlr now handles everything. 
+    # 'o' will use your default, 'O' will let you choose.
+    { mime = "*", use = "handlr" }
+]

@@ -1,0 +1,46 @@
+set imap_pass = `pass gmail/emailpass`
+set smtp_pass = `pass gmail/emailpass`
+
+set realname   = "Alex Marumo"
+set from       = "alexmarumo16@gmail.com"
+set use_from   = yes
+set folder     = "imaps://alexmarumo16@gmail.com@imap.gmail.com:993/"
+set smtp_url   = "smtps://alexmarumo16@gmail.com@smtp.gmail.com:465/"
+set spoolfile  = "imaps://alexmarumo16@gmail.com@imap.gmail.com:993/INBOX"
+set postponed  = "+[Gmail]/Drafts"
+set record     = "+[Gmail]/Sent Mail"
+
+set header_cache = "~/.mutt/cache/headers"
+set message_cachedir = "~/.mutt/cache/bodies"
+
+set mail_check = 60
+set timeout = 300
+
+set sidebar_visible = yes
+set sidebar_width = 20
+
+mailboxes +INBOX +[Gmail]/Sent\ Mail +[Gmail]/Drafts +[Gmail]/Spam +[Gmail]/Trash
+
+source color.muttrc
+
+set sort = threads
+set sort_aux = reverse-last-date-received
+
+alternative_order text/html text/enriched text/html
+auto_view text/html
+set mailcap_path = ~/.mailcap
+
+macro index,pager i "<pipe-entry>w3m -T text/html -o display_image=1 -o image_display_method=kitty<enter>" "Preview HTML with images"
+
+# --- Index View (The Inbox) ---
+bind index <right> display-message    # Right arrow opens the email
+bind index <left>  sidebar-prev       # Or use 'noop' if you want it to do nothing
+
+# --- Pager View (Inside the Email) ---
+bind pager <right> view-attachments  # Right arrow jumps to attachment list (or w3m)
+bind pager <left>  exit              # Left arrow exits the email back to index
+
+# --- Sidebar (Folder list) ---
+# If you use the sidebar, these make it feel like navigating directories
+bind index,pager <C-right> sidebar-open
+bind index,pager <C-left>  sidebar-prev
