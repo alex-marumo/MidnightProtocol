@@ -1,0 +1,5 @@
+$primary = {{colors.primary.default}}
+$background = {{colors.background.default}}
+$on_surface = {{colors.on_surface.default}}
+$outline = {{colors.outline.default}}
+$error = {{colors.error.default}}

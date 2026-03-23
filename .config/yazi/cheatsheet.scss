@@ -1,0 +1,277 @@
+@use "colors" as *;
+
+$dot: "Ndot 57", "NDot57", monospace;
+$mono: "JetBrainsMono Nerd Font", monospace;
+
+.cs-window {
+  background: transparent;
+}
+
+.cs-card {
+  background: $bg-base;
+  border: 1px solid rgba($accent, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 40px 100px rgba(black, 0.8);
+  min-width: 1100px;
+  min-height: 700px;
+}
+
+// ── Title ──────────────────────────────────────────────────────
+.cs-title-bar {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba($accent, 0.07);
+}
+.cs-title {
+  font-family: $dot;
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  color: rgba($text, 0.9);
+}
+.cs-close-btn {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 3px 10px;
+  color: rgba($text-faint, 0.5);
+  font-size: 10px;
+  &:hover {
+    color: $danger;
+    background: rgba($danger, 0.1);
+  }
+}
+
+// ── Tabs ───────────────────────────────────────────────────────
+.cs-tab-bar {
+  padding: 0 24px;
+  border-bottom: 1px solid rgba($accent, 0.07);
+}
+.cs-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  padding: 10px 22px;
+  font-family: $dot;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba($text-faint, 0.5);
+  margin-bottom: -1px;
+  &:hover {
+    color: $text-dim;
+  }
+}
+.cs-tab-active {
+  color: $accent;
+  border-bottom-color: $accent;
+}
+
+// ── 2-column keybinds grid ─────────────────────────────────────
+.cs-grid {
+  padding: 0;
+}
+
+.cs-col {
+  padding: 24px 28px;
+}
+
+.cs-col-sep {
+  background: rgba($accent, 0.06);
+  min-width: 1px;
+}
+
+.cs-loading {
+  font-family: $dot;
+  font-size: 10px;
+  color: $text-faint;
+  letter-spacing: 0.15em;
+}
+
+// ── Section ────────────────────────────────────────────────────
+.cs-section {
+  margin-bottom: 20px;
+}
+
+.cs-section-header {
+  font-family: $dot;
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  color: $accent;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba($accent, 0.15);
+}
+
+// ── Bind row ───────────────────────────────────────────────────
+.cs-bind-row {
+  padding: 4px 6px;
+  border-radius: 6px;
+  &:hover {
+    background: rgba($bg-card, 0.7);
+  }
+}
+
+.cs-key-group {
+  min-width: 160px;
+}
+
+.cs-key {
+  font-family: $mono;
+  font-size: 9px;
+  font-weight: 500;
+  color: $text-dim;
+  background: transparent;
+  border: 1px solid rgba($text-faint, 0.28);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-right: 3px;
+}
+.cs-key-super {
+  color: $accent;
+  border-color: rgba($accent, 0.35);
+}
+
+.cs-bind-desc {
+  font-family: $mono;
+  font-size: 11px;
+  color: $text-dim;
+}
+
+// ── Cyber tab ──────────────────────────────────────────────────
+.cs-cyber-outer {
+  padding: 24px 28px;
+}
+
+.cs-cyber-header {
+  font-family: $dot;
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  color: rgba($text-faint, 0.6);
+  margin-bottom: 14px;
+}
+
+.cs-chain-row {
+  padding-bottom: 8px;
+}
+
+.cs-phase-card {
+  background: rgba($bg-card, 0.6);
+  border: 1px solid rgba($text-faint, 0.1);
+  border-radius: 8px;
+  padding: 14px 16px;
+  min-width: 175px;
+  &:hover {
+    border-color: rgba($accent, 0.2);
+  }
+}
+.cs-phase-num {
+  font-family: $dot;
+  font-size: 15px;
+  color: $accent;
+  opacity: 0.5;
+}
+.cs-phase-code {
+  font-family: $dot;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: rgba($text-faint, 0.6);
+  background: rgba($text-faint, 0.06);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-left: 7px;
+}
+.cs-phase-name {
+  font-family: $mono;
+  font-size: 11px;
+  font-weight: 600;
+  color: $text;
+  margin-top: 8px;
+  margin-bottom: 5px;
+}
+.cs-phase-desc {
+  font-family: $mono;
+  font-size: 10px;
+  color: $text-faint;
+  margin-bottom: 10px;
+}
+.cs-tool-chip {
+  font-family: $mono;
+  font-size: 9px;
+  color: $accent;
+  background: transparent;
+  border: 1px solid rgba($accent, 0.2);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-right: 4px;
+}
+.cs-chain-arrow {
+  font-family: $dot;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: rgba($text-faint, 0.25);
+}
+
+// ── Ports ──────────────────────────────────────────────────────
+.cs-port-header-row {
+  padding: 0 4px 7px;
+  border-bottom: 1px solid rgba($accent, 0.08);
+  margin-bottom: 4px;
+}
+.cs-port-col-lbl {
+  font-family: $dot;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: rgba($text-faint, 0.5);
+}
+.cs-port-row {
+  padding: 3px 4px;
+  border-radius: 3px;
+  &:hover {
+    background: rgba($bg-card, 0.4);
+  }
+}
+.cs-port-num {
+  font-family: $dot;
+  font-size: 11px;
+  color: $accent;
+}
+.cs-port-proto {
+  font-family: $mono;
+  font-size: 10px;
+  color: $text-faint;
+}
+.cs-port-svc {
+  font-family: $mono;
+  font-size: 11px;
+  color: $text;
+}
+
+.cs-risk-critical {
+  font-family: $dot;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: $danger;
+  border: 1px solid rgba($danger, 0.2);
+  background: transparent;
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.cs-risk-medium {
+  font-family: $dot;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: $warn;
+  border: 1px solid rgba($warn, 0.2);
+  background: transparent;
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.cs-risk-low {
+  font-family: $dot;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: $accent;
+  border: 1px solid rgba($accent, 0.2);
+  background: transparent;
+  border-radius: 3px;
+  padding: 1px 5px;
+}

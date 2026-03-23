@@ -1,0 +1,5 @@
+$primary = {"color": Ident("#a8d292")}
+$background = {"color": Ident("#11140f")}
+$on_surface = {"color": Ident("#e1e4da")}
+$outline = {"color": Ident("#8d9287")}
+$error = {"color": Ident("#ffb4ab")}

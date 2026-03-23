@@ -1,0 +1,13 @@
+[ui]
+# Matches a dark/minimal terminal aesthetic
+show_scroll_bar = false
+show_peaks = true 
+
+[keys]
+# Standard Vim-style
+up = "k"
+down = "j"
+left = "h"
+right = "l"
+mute = "m"
+set_default = "d"

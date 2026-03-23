@@ -1,0 +1,17 @@
+
+# Secrets
+.config/mutt/passwords
+.config/mutt/.mutt_passwords
+**/.netrc
+**/*.key
+**/*.pem
+**/*.secret
+**/credentials*
+**/token*
+
+# Cache & runtime
+.config/ags/node_modules/
+.config/ags/.ags/
+*.log
+*.pyc
+**/__pycache__/
