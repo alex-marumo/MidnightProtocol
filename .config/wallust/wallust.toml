@@ -1,0 +1,20 @@
+backend = "full"
+color_space = "lch"
+threshold = 10
+palette = "dark16"
+
+[templates]
+# AGS colors
+ags-colors.target = "~/.config/ags/colors.scss"
+ags-colors.template = "ags-colors.scss"
+
+# Hyprland colors
+hypr-colors.target = "~/.config/hypr/colors.conf"
+hypr-colors.template = "hypr-colors.conf"
+
+# Kitty theme
+kitty-colors.target = "~/.config/kitty/current-theme.conf"
+kitty-colors.template = "kitty-colors.conf"
+
+[pywal]
+enabled = false

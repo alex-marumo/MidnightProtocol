@@ -1,10 +1,33 @@
-$accent:         #4bddc0;
-$accent-subtle:  #294841;
-$text:           #eaebeb;
-$text-dim:       #adb3b3;
-$text-faint:     #7b8787;
-$warn:           #e7be40;
-$danger:         #e14747;
-$bg-base:        #030302;
-$bg-deep:        #000000;
-$bg-card:        #1a1a14;
+$background: #282828;
+$foreground: #FAF9EF;
+
+$color0: #4D4D4D;
+$color1: #46463E;
+$color2: #4F501A;
+$color3: #346466;
+$color4: #727113;
+$color5: #7A7869;
+$color6: #B5B29C;
+$color7: #F0EEDF;
+$color8: #A8A69C;
+$color9: #5E5D53;
+$color10: #6A6A23;
+$color11: #458588;
+$color12: #98971A;
+$color13: #A2A08C;
+$color14: #F1EDD0;
+$color15: #F0EEDF;
+
+$bg-base: $background;
+$bg-card: $color0;
+$bg-deep: $color0;
+$text: $foreground;
+$text-dim: $color7;
+$text-faint: $color8;
+$accent: $color4;
+$accent-subtle: rgba($color4, 0.5);
+
+$danger: $color1;
+$warn: $color3;
+$dot: $color8;
+$mono: "JetBrainsMono Nerd Font", monospace;
