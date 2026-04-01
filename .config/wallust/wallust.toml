@@ -16,5 +16,17 @@ hypr-colors.template = "hypr-colors.conf"
 kitty-colors.target = "~/.config/kitty/current-theme.conf"
 kitty-colors.template = "kitty-colors.conf"
 
+# Tuigreet theme
+greetd.target = "/etc/greetd/config.toml"
+greetd.template = "greetd-config.toml"
+
+# Wlogout theme
+wlogout.target = "~/.config/wlogout/style.css"
+wlogout.template = "wlogout-style.css"
+
+# Hyprlock theme
+hyprlock-colors.target = "~/.config/hypr/hyprlock/colors.conf"
+hyprlock-colors.template = "hyprlock-colors.conf"
+
 [pywal]
 enabled = false

@@ -1,0 +1,7 @@
+[terminal]
+vt = 7
+noclear = true
+
+[default_session]
+command = "tuigreet --time --width 40 --theme 'border={{color8}};text={{foreground}};prompt={{color4}};time={{color8}};action={{color6}};button={{color1}}' --greeting 'WAKE UP TO REALITY_SOCIETY IS A LIE' --cmd start-hyprland"
+user = "alexm"

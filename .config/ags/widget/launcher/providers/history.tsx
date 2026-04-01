@@ -13,83 +13,86 @@ interface HistoryEntry {
 const CACHE_PATH = GLib.get_user_cache_dir() + "/ags/launcher-history.json"
 let history: HistoryEntry[] = []
 
-// 1. Immediate Load from Cache
 try {
   const file = Gio.File.new_for_path(CACHE_PATH)
   const [success, contents] = file.load_contents(null)
   if (success) {
     history = JSON.parse(new TextDecoder().decode(contents))
   }
-} catch (e) {
+} catch {
   console.log("No existing history found.")
 }
 
-// 2. Persistent Save Function
 function saveHistory() {
   try {
     const contents = new TextEncoder().encode(JSON.stringify(history, null, 2))
     const file = Gio.File.new_for_path(CACHE_PATH)
-
-    // Ensure parent directory exists
     const dir = file.get_parent()
-    if (dir && !dir.query_exists(null)) {
-      dir.make_directory_with_parents(null)
-    }
-
+    if (dir && !dir.query_exists(null)) dir.make_directory_with_parents(null)
     file.replace_contents_async(contents, null, false, 0, null, null)
   } catch (e) {
     console.error("Failed to save history:", e)
   }
 }
 
-/**
- * EXPORT: Named export for recording actions in launcherlogic.ts
- */
-export function recordHistory(item: ProviderResult) {
-  // Use subtitle/title combination to ensure uniqueness
+function isDeadEntry(h: HistoryEntry): boolean {
+  // check executable field first, then subtitle if it looks like a path
+  const cmd = h.executable || (h.subtitle?.startsWith("/") ? h.subtitle : null)
+  if (!cmd) return false
+  const bin = cmd.split(" ")[0]
+  return !GLib.file_test(bin, GLib.FileTest.IS_EXECUTABLE)
+}
+
+export function recordHistory(item: ProviderResult & { executable?: string }) {
   const existing = history.find(
     (h) => h.title === item.title && h.subtitle === item.subtitle,
   )
 
   if (existing) {
     existing.score += 1
+    if (item.executable) existing.executable = item.executable
   } else {
     history.unshift({
       title: item.title,
       subtitle: item.subtitle,
       icon: item.icon,
+      executable: item.executable,
       score: 1,
     })
   }
 
   history.sort((a, b) => b.score - a.score)
   if (history.length > 30) history.pop()
-
   saveHistory()
 }
 
 export default function historyProvider(query: string): ProviderResult[] {
   const q = query.toLowerCase()
+
+  const live = history.filter((h) => !isDeadEntry(h))
+
   const results = query
-    ? history.filter(
+    ? live.filter(
         (h) =>
           h.title.toLowerCase().includes(q) ||
           h.subtitle?.toLowerCase().includes(q),
       )
-    : history
+    : live
 
   return results.slice(0, 8).map((h) => ({
     title: h.title,
     subtitle: h.subtitle,
     icon: h.icon,
     score: h.score,
-    // History items should re-trigger their original intent
     action: () => {
-      // If it looks like a web URL, open it. If it's a file, open it.
-      if (h.subtitle?.startsWith("http")) {
+      if (h.executable) {
+        // run the stored app command directly
+        GLib.spawn_command_line_async(h.executable)
+      } else if (h.subtitle?.startsWith("http")) {
         GLib.spawn_command_line_async(`xdg-open ${h.subtitle}`)
       } else if (h.subtitle?.startsWith("/")) {
-        GLib.spawn_command_line_async(`xdg-open ${h.subtitle}`)
+        // actual file, not a binary
+        GLib.spawn_command_line_async(`xdg-open "${h.subtitle}"`)
       } else {
         GLib.spawn_command_line_async(h.title.toLowerCase())
       }

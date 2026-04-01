@@ -13,6 +13,7 @@ export type ProviderResult = {
   icon?: string
   action: () => void
   score?: number
+  executable?: string
 }
 
 const providers = [

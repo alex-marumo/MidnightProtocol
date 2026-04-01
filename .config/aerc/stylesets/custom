@@ -1,0 +1,65 @@
+# Base reset
+*.default=true
+*.normal=true
+
+# Global selected style
+*.selected.reverse=true
+*.selected.bold=true
+
+# Status line
+statusline_default.bg=0
+statusline_default.fg=11
+statusline_error.fg=9
+statusline_error.bold=true
+
+# Message list
+msglist_default.fg=7
+msglist_unread.fg=11
+msglist_unread.bold=true
+msglist_read.fg=8
+msglist_flagged.fg=9
+msglist_answered.fg=10
+msglist_marked.bg=14
+msglist_marked.fg=0
+
+# Directory list
+dirlist_default.fg=7
+dirlist_unread.fg=10
+dirlist_unread.bold=true
+
+# Title and header
+title.fg=11
+title.bg=0
+title.bold=true
+header.fg=12
+header.bold=true
+
+# Border
+border.fg=8
+
+# Tab bar
+tab.fg=0
+tab.bg=11
+tab.bold=true
+
+# Completion/autocomplete
+completion_default.bg=0
+completion_default.fg=7
+completion_pill.bg=11
+completion_pill.fg=0
+
+# Viewer section
+[viewer]
+*.default=true
+*.normal=true
+header.fg=13
+header.bold=true
+signature.fg=10
+quote_1.fg=10
+quote_2.fg=12
+quote_3.fg=14
+quote_4.fg=11
+quote_x.fg=9
+url.fg=14
+url.underline=true
+url.bold=true
