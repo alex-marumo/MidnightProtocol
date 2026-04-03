@@ -1,7 +1,12 @@
-backend = "full"
+backend = "kmeans"
 color_space = "lch"
-threshold = 10
-palette = "dark16"
+threshold = 1
+palette = "dark-comp16"
+
+[filters]
+percent = 90
+brightness = -2
+saturation = 80
 
 [templates]
 # AGS colors
