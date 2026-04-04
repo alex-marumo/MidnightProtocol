@@ -1,0 +1,83 @@
+theme = "default"
+client_id = "d420a117a32841c2b3474932e49fb54b"
+client_port = 8080
+login_redirect_uri = "http://127.0.0.1:8080/login"
+
+# Playback display - minimal, metadata-rich
+playback_format = """
+{status} {track} • {artists} {liked}
+{metadata}"""
+
+playback_metadata_fields = [
+    "repeat",
+    "shuffle",
+    "volume",
+    "device",
+]
+
+# Performance
+app_refresh_duration_in_ms = 32
+playback_refresh_duration_in_ms = 0
+page_size_in_rows = 25
+tracks_playback_limit = 50
+
+# Icons - cleaner set
+play_icon = "▶"
+pause_icon = "⏸"
+liked_icon = "♥"
+explicit_icon = "E"
+
+# UI styling
+border_type = "Plain"
+progress_bar_type = "Rectangle"
+progress_bar_position = "Bottom"
+
+# Cover art - bigger for impact
+cover_img_length = 12
+cover_img_width = 6
+cover_img_scale = 1.0
+enable_cover_image_cache = true
+
+# Features
+enable_media_control = true
+enable_streaming = "Always"
+enable_audio_visualization = false
+enable_notify = true
+notify_streaming_only = false
+notify_timeout_in_secs = 3
+notify_transient = true
+
+# Playback behavior
+default_device = "spotify-player"
+seek_duration_secs = 10
+volume_scroll_step = 5
+enable_mouse_scroll_volume = true
+sort_artist_albums_by_type = true
+
+# Notifications - clean & minimal
+[notify_format]
+summary = "{track}"
+body = "{artists} • {album}"
+
+# Layout - spacious player, balanced splits
+[layout]
+playback_window_position = "Top"
+playback_window_height = 8
+
+[layout.library]
+playlist_percent = 35
+album_percent = 35
+
+# Device config - HQ streaming
+[device]
+name = "spotify-player"
+device_type = "speaker"
+audio_backend = "pipewire-pulse"  # Change to "alsa" if on pure ALSA
+volume = 100
+bitrate = 320
+audio_cache = false
+normalization = false
+autoplay = true
+
+[render_config]
+image_rendering_config = "Kitty"

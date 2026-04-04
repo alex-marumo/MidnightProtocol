@@ -2,12 +2,6 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 --
--- Toggle NvimTree
-vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { silent = true, desc = "Toggle NvimTree" })
-
--- Focus NvimTree (if already open)
-vim.keymap.set("n", "<leader>e", ":NvimTreeFocus", { silent = true, desc = "Focus NvimTree" })
-
 -- Open a new tab page
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "New Tab" })
 -- Close the current tab page
@@ -19,5 +13,5 @@ vim.keymap.set("n", "<leader>to", ":tabedit %<CR>", { desc = "Open current buffe
 vim.keymap.set("n", "<leader>w", ":wall <CR>", opts)
 
 -- Split window
-vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
-vim.keymap.set("n", "<leader>wcs", "<C-w>s", { desc = "Split window horizontally" })
+vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Split vertically" })
+vim.keymap.set("n", "<leader>wh", "<C-w>s", { desc = "Split horizontally" })

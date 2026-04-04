@@ -103,7 +103,8 @@ return {
     config = function(_, opts)
       local telescope = require("telescope")
       local actions = require("telescope.actions")
-      local telescope = require(telescope).extensions.file_browser.actions
+      local telescope = require(telescope)
+      local fb_actions = require("telescope").extensions.file_browser.actions
 
       opts.defaults = vim.tbl_deep_extend("force", opts.defaults, {
         wrap_results = true,

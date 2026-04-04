@@ -3,6 +3,8 @@ import app from "ags/gtk4/app"
 import { queryLauncher, execute } from "./launcherlogic"
 
 export default function Launcher() {
+  let debounceTimer: number | null = null
+
   // 1. The Result List
   const list = new Gtk.Box({
     orientation: Gtk.Orientation.VERTICAL,
@@ -10,57 +12,61 @@ export default function Launcher() {
   })
 
   const updateList = async (text: string) => {
-    const results = await queryLauncher(text)
+    if (debounceTimer) clearTimeout(debounceTimer)
 
-    let child = list.get_first_child()
-    while (child) {
-      list.remove(child)
-      child = list.get_first_child()
-    }
+    debounceTimer = setTimeout(async () => {
+      const results = await queryLauncher(text)
 
-    results.slice(0, 6).forEach((item) => {
-      const btn = new Gtk.Button({ css_classes: ["launcher-item"] })
-      btn.connect("clicked", () => {
-        execute(item)
-        app.get_window("launcher")?.set_visible(false)
-      })
+      let child = list.get_first_child()
+      while (child) {
+        list.remove(child)
+        child = list.get_first_child()
+      }
 
-      const content = new Gtk.Box({ spacing: 16 })
-      const img = new Gtk.Image({
-        icon_name: item.icon || "system-run-symbolic",
-        pixel_size: 28,
-      })
+      results.slice(0, 6).forEach((item) => {
+        const btn = new Gtk.Button({ css_classes: ["launcher-item"] })
+        btn.connect("clicked", () => {
+          execute(item)
+          app.get_window("launcher")?.set_visible(false)
+        })
 
-      img.set_margin_start(8)
+        const content = new Gtk.Box({ spacing: 16 })
+        const img = new Gtk.Image({
+          icon_name: item.icon || "system-run-symbolic",
+          pixel_size: 28,
+        })
 
-      const labels = new Gtk.Box({
-        orientation: Gtk.Orientation.VERTICAL,
-        valign: Gtk.Align.CENTER,
-      })
+        img.set_margin_start(8)
 
-      labels.append(
-        new Gtk.Label({
-          label: item.title,
-          css_classes: ["launcher-title"],
-          xalign: 0,
-        }),
-      )
+        const labels = new Gtk.Box({
+          orientation: Gtk.Orientation.VERTICAL,
+          valign: Gtk.Align.CENTER,
+        })
 
-      if (item.subtitle) {
         labels.append(
           new Gtk.Label({
-            label: item.subtitle,
-            css_classes: ["launcher-subtitle"],
+            label: item.title,
+            css_classes: ["launcher-title"],
             xalign: 0,
           }),
         )
-      }
 
-      content.append(img)
-      content.append(labels)
-      btn.set_child(content)
-      list.append(btn)
-    })
+        if (item.subtitle) {
+          labels.append(
+            new Gtk.Label({
+              label: item.subtitle,
+              css_classes: ["launcher-subtitle"],
+              xalign: 0,
+            }),
+          )
+        }
+
+        content.append(img)
+        content.append(labels)
+        btn.set_child(content)
+        list.append(btn)
+      })
+    }, 150) as unknown as number
   }
 
   // 2. The Search Entry

@@ -111,13 +111,12 @@ return {
         preset = {
           header = [[
 
-  dBBBBBb    dBBBBb dBP dBP.dBBBBP.dBBBBP   dBPdBPdBP dBBBBBb     dBP    dBP dBP dBBBP dBBBBBb
-       BB       dBP    dBP BP     BP                       BB           d8P.dBP            dBP
-   dBP BB   dBBBK'    dBP  `BBBBb `BBBBb  dBPdBPdBP    dBP BB   dBP    dBBBBP  dBBP    dBBBBK 
-  dBP  BB  dB' db    dBP      dBP    dBP dBPdBPdBP    dBP  BB  dBP    dBP BB  dBP     dBP  BB 
- dBBBBBBB dBBBBP'   dBP  dBBBBP'dBBBBP' dBBBBBBBP    dBBBBBBB dBBBBP dBP dBP dBBBBP  dBP  dB' 
-                                                                                              
-
+___    __                     _       __      ____            
+   /   |  / /_  __  __________   | |     / /___ _/ / /_____  _____
+  / /| | / __ \/ / / / ___/ ___/  | | /| / / __ `/ / //_/ _ \/ ___/
+ / ___ |/ /_/ / /_/ (__  |__  )   | |/ |/ / /_/ / / ,< /  __/ /    
+/_/  |_/_.___/\__, /____/____/    |__/|__/\__,_/_/_/|_|\___/_/     
+             /____/                                                
          ]],
         },
       },

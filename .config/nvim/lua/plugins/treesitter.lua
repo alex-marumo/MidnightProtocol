@@ -25,7 +25,7 @@ return {
         "typescript",
         "html",
         "markdown",
-        "markdown_inLine",
+        "markdown_inline",
       },
       highlight = { enable = true },
       indent = { enable = true },
