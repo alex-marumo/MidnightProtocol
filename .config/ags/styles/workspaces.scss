@@ -1,0 +1,32 @@
+@use "../colors" as *;
+
+// ── Workspaces ────────────────────────────────────────
+.workspaces {
+  padding: 0;
+}
+
+.ws-btn {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 2px 4px;
+  color: $text-faint;
+  font-size: 10px;
+  font-family: "Noto Serif CJK JP", "Source Han Serif JP", serif;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    background-color: rgba($bg-card, 0.4);
+    color: $text-dim;
+  }
+  &.active {
+    background-color: rgba($accent, 0.14);
+    border-color: rgba($accent, 0.28);
+    color: $accent;
+    font-weight: 700;
+  }
+  &.occupied {
+    color: $text-dim;
+  }
+}

@@ -1,4 +1,3 @@
-import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import Logo from "./Logo"
 import Workspaces from "./Workspaces"
@@ -12,7 +11,7 @@ export default function Sidebar(monitor: Gdk.Monitor) {
   return (
     <window
       name="sidebar"
-      visible
+      visible={true}
       layer={Astal.Layer.TOP}
       anchor={
         Astal.WindowAnchor.LEFT |
@@ -20,7 +19,6 @@ export default function Sidebar(monitor: Gdk.Monitor) {
         Astal.WindowAnchor.BOTTOM
       }
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
-      application={app}
       gdkmonitor={monitor}
       cssClasses={["sidebar-window"]}
     >
@@ -30,12 +28,12 @@ export default function Sidebar(monitor: Gdk.Monitor) {
         spacing={3}
         valign={Gtk.Align.FILL}
       >
-        {/* ── Logo ── */}
+        {/* Logo */}
         <box cssClasses={["pill"]} halign={Gtk.Align.CENTER}>
           <Logo />
         </box>
 
-        {/* ── Center: SysMon + Workspaces ── */}
+        {/* Center: SysMon + Workspaces */}
         <box
           cssClasses={["pill", "pill-center"]}
           orientation={Gtk.Orientation.VERTICAL}
@@ -49,12 +47,12 @@ export default function Sidebar(monitor: Gdk.Monitor) {
           <Workspaces />
         </box>
 
-        {/* ── Media ── */}
+        {/* Media */}
         <box cssClasses={["pill"]} halign={Gtk.Align.CENTER}>
           <Media />
         </box>
 
-        {/* ── Clock + Battery ── */}
+        {/* Clock + Battery */}
         <box
           cssClasses={["pill"]}
           orientation={Gtk.Orientation.VERTICAL}
@@ -66,7 +64,7 @@ export default function Sidebar(monitor: Gdk.Monitor) {
           <Battery />
         </box>
 
-        {/* ── Controls ── */}
+        {/* Controls */}
         <box
           cssClasses={["pill"]}
           orientation={Gtk.Orientation.VERTICAL}

@@ -1,0 +1,75 @@
+@use "../colors" as *;
+
+// ── SysMon ────────────────────────────────────────────
+.sysmon {
+  padding: 1px 0;
+}
+
+.ring-pct {
+  font-size: 8px;
+  font-weight: 700;
+  color: $text;
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+}
+
+.ring-label {
+  font-size: 6px;
+  color: $text-faint;
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+}
+
+// ── SysMon popover ────────────────────────────────────
+popover.sysmon-popover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+popover.sysmon-popover > contents {
+  background-color: $bg-deep;
+  border-radius: 16px;
+  border: 1px solid rgba($accent, 0.15);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  padding: 0;
+  margin: 0;
+}
+
+.sysmon-card {
+  padding: 14px 18px;
+  min-width: 160px;
+}
+
+.sysmon-stat-row {
+  padding: 0;
+}
+
+.sysmon-stat-col {
+  min-width: 40px;
+}
+
+.sysmon-stat-value {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.sysmon-stat-label {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 9px;
+  color: rgba($text, 0.4);
+  letter-spacing: 1px;
+}
+
+.sysmon-divider {
+  background: rgba($text, 0.06);
+  min-height: 1px;
+  margin: 0 2px;
+}
+
+.sysmon-uptime {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 9px;
+  color: rgba($text, 0.45);
+}

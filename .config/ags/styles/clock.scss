@@ -1,0 +1,96 @@
+@use "../colors" as *;
+
+// ── Clock ─────────────────────────────────────────────
+.clock-box {
+  padding: 0;
+}
+
+.clock {
+  font-size: 14px;
+  font-weight: 700;
+  color: $text;
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  line-height: 1.2;
+}
+
+.clock-seconds {
+  font-size: 7px;
+  color: rgba($text, 0.2);
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+}
+
+.date {
+  font-size: 8px;
+  color: $text-dim;
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  letter-spacing: 1.5px;
+}
+
+// ── Clock popover ─────────────────────────────────────
+popover.clock-popover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+popover.clock-popover > contents {
+  background-color: $bg-deep;
+  border-radius: 16px;
+  border: 1px solid rgba($accent, 0.15);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  padding: 0;
+  margin: 0;
+}
+
+.clock-pop-box {
+  padding: 14px 16px;
+  min-width: 200px;
+}
+
+.clock-pop-date {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 9px;
+  color: $text-dim;
+  letter-spacing: 0.06em;
+}
+
+.clock-pop-time {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: $text;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.clock-pop-row {
+  padding: 2px 0;
+}
+
+.clock-pop-label {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: $text-faint;
+}
+
+.clock-pop-pct {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 8px;
+  color: $accent;
+}
+
+.clock-pop-track {
+  background: rgba($text, 0.08);
+  border-radius: 99px;
+  min-height: 3px;
+}
+
+.clock-pop-fill {
+  background: $accent;
+  border-radius: 99px;
+  min-height: 3px;
+}

@@ -1,0 +1,40 @@
+@use "../colors" as *;
+
+// ── OSD ───────────────────────────────────────────────
+.osd-window {
+  background: transparent;
+}
+
+.osd-pill {
+  background: rgba(24, 24, 37, 0.88);
+  border-radius: 999px;
+  border: 1px solid rgba($text, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  padding: 6px 16px;
+}
+
+.osd-icon {
+  font-family: "Symbols Nerd Font Mono";
+  font-size: 14px;
+  color: $text;
+  min-width: 20px;
+}
+
+.osd-bar-track {
+  background: rgba($text, 0.12);
+  border-radius: 99px;
+  min-height: 5px;
+}
+
+.osd-bar-fill {
+  background: $accent;
+  border-radius: 99px;
+  min-height: 5px;
+}
+
+.osd-pct {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 10px;
+  color: $text-dim;
+  min-width: 32px;
+}

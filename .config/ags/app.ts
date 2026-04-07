@@ -1,11 +1,11 @@
 import app from "ags/gtk4/app"
 import style from "./style.scss"
-import Sidebar from "./widget/Sidebar"
-import OSD from "./widget/Osd"
-import ControlCenter from "./widget/ControlCenter"
-import ControlCenterToggle from "./widget/ControlCenterToggle"
-import Launcher from "./widget/launcher/launcher" 
-import CheatSheet from "./widget/Cheatsheet"
+import Sidebar from "./widgets/Sidebar"
+import OSD from "./widgets/Osd"
+import ControlCenter from "./widgets/ControlCenter"
+import ControlCenterToggle from "./widgets/ControlCenterToggle"
+import Launcher from "./widgets/launcher/launcher" 
+import CheatSheet from "./widgets/Cheatsheet"
 
 app.start({
   css: style,

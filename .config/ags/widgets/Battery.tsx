@@ -32,11 +32,6 @@ function roundedRect(
 export default function Battery() {
   let pct = 0
   let charging = false
-  let pctStr = "0%"
-
-  // animation state
-  let shimmerX = 0
-  let pulseAlpha = 1
 
   const W = 18,
     H = 8,
@@ -48,43 +43,53 @@ export default function Battery() {
   const da = new Gtk.DrawingArea()
   da.set_size_request(CW, H)
 
-  const pctLbl = new Gtk.Label()
-  pctLbl.add_css_class("battery-pct")
-  pctLbl.set_halign(Gtk.Align.CENTER)
-  pctLbl.set_label("0%")
+  const pctLbl = new Gtk.Label({
+    cssClasses: ["battery-pct"],
+    halign: Gtk.Align.CENTER,
+    label: "0%",
+  })
+
+  let shimmerX = 0
+  let pulseAlpha = 1
+  let shimmerId: number | null = null
+  let pulseId: number | null = null
 
   da.set_draw_func((_da, cr) => {
     const p = pct / 100
-
-    // color by state
     let [fr, fg, fb] = hexToRgb("#a6e3a1")
+
     if (charging) [fr, fg, fb] = hexToRgb("#89b4fa")
     else if (p <= 0.15) [fr, fg, fb] = hexToRgb("#f38ba8")
     else if (p <= 0.3) [fr, fg, fb] = hexToRgb("#fab387")
 
     const ty = (H - TH) / 2
+
+    // tip
     roundedRect(cr, W - 0.5, ty, TW + 0.5, TH, 1.2)
     cr.setSourceRGBA(1, 1, 1, 0.22)
     cr.fill()
 
+    // border
     roundedRect(cr, 0.5, 0.5, W - 1, H - 1, R)
     cr.setSourceRGBA(1, 1, 1, 0.06)
     cr.fillPreserve()
-    if (charging) {
-      cr.setSourceRGBA(fr, fg, fb, 0.7)
-      cr.setLineWidth(1.2)
-    } else {
-      cr.setSourceRGBA(1, 1, 1, 0.18)
-      cr.setLineWidth(1)
-    }
+    cr.setSourceRGBA(
+      charging ? fr : 1,
+      charging ? fg : 1,
+      charging ? fb : 1,
+      charging ? 0.7 : 0.18,
+    )
+    cr.setLineWidth(charging ? 1.2 : 1)
     cr.stroke()
 
+    // fill
     const PAD = 2.2
     const fillW = Math.max(0, (W - PAD * 2) * p)
     const alpha = p <= 0.15 && !charging ? pulseAlpha : 0.95
 
     if (fillW > 0) {
       roundedRect(cr, PAD, PAD, fillW, H - PAD * 2, R - 1)
+
       const grad = new Cairo.LinearGradient(0, 0, 0, H)
       grad.addColorStopRGBA(
         0,
@@ -97,6 +102,7 @@ export default function Battery() {
       cr.setSource(grad)
       cr.fill()
 
+      // shimmer when charging
       if (charging) {
         const sx = PAD + shimmerX * fillW
         const sweep = new Cairo.LinearGradient(sx - 4, 0, sx + 4, 0)
@@ -109,6 +115,7 @@ export default function Battery() {
       }
     }
 
+    // shine
     roundedRect(cr, 1.5, 1.5, W - 3, (H - 3) / 2, R - 1)
     const shine = new Cairo.LinearGradient(0, 0, 0, H)
     shine.addColorStopRGBA(0, 1, 1, 1, 0.12)
@@ -116,36 +123,32 @@ export default function Battery() {
     cr.setSource(shine)
     cr.fill()
 
+    // lightning bolt
     if (charging) {
       const cx = W / 2,
         cy = H / 2
-      const boltPath = () => {
-        cr.newPath()
-        cr.moveTo(cx + 2.5, cy - 3.5)
-        cr.lineTo(cx - 1.5, cy + 0.5)
-        cr.lineTo(cx + 0.5, cy + 0.5)
-        cr.lineTo(cx - 2.5, cy + 3.5)
-        cr.lineTo(cx + 1.5, cy - 0.5)
-        cr.lineTo(cx - 0.5, cy - 0.5)
-        cr.closePath()
-      }
+      cr.newPath()
+      cr.moveTo(cx + 2.5, cy - 3.5)
+      cr.lineTo(cx - 1.5, cy + 0.5)
+      cr.lineTo(cx + 0.5, cy + 0.5)
+      cr.lineTo(cx - 2.5, cy + 3.5)
+      cr.lineTo(cx + 1.5, cy - 0.5)
+      cr.lineTo(cx - 0.5, cy - 0.5)
+      cr.closePath()
 
-      boltPath()
       cr.setSourceRGBA(0, 0, 0, 0.5)
       cr.setLineWidth(1.2)
       cr.strokePreserve()
-      cr.setSourceRGBA(1, 0.95, 0.3, 1.0)
+      cr.setSourceRGBA(1, 0.95, 0.3, 1)
       cr.fill()
     }
   })
 
-  let shimmerRunning = false
   function startShimmer() {
-    if (shimmerRunning) return
-    shimmerRunning = true
-    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 30, () => {
+    if (shimmerId) return
+    shimmerId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 30, () => {
       if (!charging) {
-        shimmerRunning = false
+        shimmerId = null
         shimmerX = 0
         return GLib.SOURCE_REMOVE
       }
@@ -155,23 +158,23 @@ export default function Battery() {
     })
   }
 
-  let pulsePhase = 0
-  GLib.timeout_add(GLib.PRIORITY_DEFAULT, 80, () => {
+  // low battery pulse (only when needed)
+  pulseId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 80, () => {
     if (pct <= 15 && !charging) {
-      pulsePhase += 0.08
-      pulseAlpha = 0.45 + Math.abs(Math.sin(pulsePhase)) * 0.55
+      pulseAlpha = 0.45 + Math.abs(Math.sin(Date.now() / 120)) * 0.55
       da.queue_draw()
     }
     return GLib.SOURCE_CONTINUE
   })
+
+  // Battery service
   ;(async () => {
     const bat = (await import("gi://AstalBattery")).default.get_default()
 
-    function update() {
+    const update = () => {
       pct = Math.round(bat.percentage * 100)
       charging = bat.charging
-      pctStr = `${pct}%`
-      pctLbl.set_label(pctStr)
+      pctLbl.set_label(`${pct}%`)
       if (charging) startShimmer()
       da.queue_draw()
     }
@@ -181,12 +184,15 @@ export default function Battery() {
     bat.connect("notify::charging", update)
   })()
 
-  const box = new Gtk.Box()
-  box.set_orientation(Gtk.Orientation.VERTICAL)
-  box.set_halign(Gtk.Align.CENTER)
-  box.set_spacing(3)
-  box.add_css_class("battery-container")
-  box.append(da)
-  box.append(pctLbl)
-  return box
+  return (
+    <box
+      cssClasses={["battery-container"]}
+      orientation={Gtk.Orientation.VERTICAL}
+      halign={Gtk.Align.CENTER}
+      spacing={3}
+    >
+      {da}
+      {pctLbl}
+    </box>
+  )
 }
