@@ -1,45 +1,37 @@
 @use "../colors" as *;
 
-// ── Sidebar ───────────────────────────────────────────────
+// ── Sidebar ───────────────────────────────────
 .sidebar-window {
   background: transparent;
 }
 
 .sidebar {
   background: transparent;
-  padding: 5px 2px;
-  min-width: 0;
+  padding: 5px 3px;
 }
 
-// ── Pills ─────────────────────────────────────────────
 .pill {
-  background-color: rgba($bg-base, 0.88);
-  border: 1px solid rgba($text, 0.07);
-  border-radius: 12px;
-  padding: 6px 3px;
-  box-shadow:
-    0 3px 14px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  animation: pill-in 280ms ease;
+  background-color: $bg-base;
+  opacity: 0.91;
+  border: 1px solid rgba($accent, 0.2);
+  border-radius: 5px;
+  padding: 6px 4px;
+  animation: pill-in 220ms ease;
 }
 
 .pill-center {
   min-height: 0;
 }
 
-// ── Logo ──────────────────────────────────────────────
 .logo-btn {
-  background-color: rgba($accent, 0.1);
-  border: 1px solid rgba($accent, 0.2);
-  border-radius: 10px;
-  padding: 5px 6px;
+  background-color: rgba($accent, 0.08);
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: 5px;
+  padding: 5px 7px;
 
   &:hover {
-    background-color: rgba($accent, 0.2);
-    border-color: rgba($accent, 0.4);
-  }
-  &:active {
-    background-color: rgba($accent, 0.3);
+    background-color: rgba($accent, 0.16);
+    border-color: rgba($accent, 0.38);
   }
 }
 
@@ -47,9 +39,10 @@
   font-size: 14px;
   color: $accent;
   font-family: "Symbols Nerd Font Mono", monospace;
+  font-weight: 400;
+  letter-spacing: -0.02em;
 }
 
-// ── Battery ───────────────────────────────────────────
 .battery-container {
   padding: 1px 0;
 }
@@ -58,11 +51,11 @@
   font-size: 7px;
   color: $text-dim;
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-weight: 400;
 }
 
-// ── Separator ─────────────────────────────────────────
 .separator-line {
-  background-color: rgba($text, 0.05);
+  background-color: rgba($text, 0.07);
   min-height: 1px;
-  margin: 1px 3px;
+  margin: 2px 4px;
 }

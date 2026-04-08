@@ -1,16 +1,16 @@
 @use "../colors" as *;
 
-// ── OSD ───────────────────────────────────────────────
+// ── OSD ───────────────────────────────────────────
 .osd-window {
   background: transparent;
 }
 
 .osd-pill {
-  background: rgba(24, 24, 37, 0.88);
-  border-radius: 999px;
-  border: 1px solid rgba($text, 0.08);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-  padding: 6px 16px;
+  background: $bg-base;
+  opacity: 0.91;
+  border: 1px solid rgba($accent, 0.18);
+  border-radius: 5px;
+  padding: 7px 16px;
 }
 
 .osd-icon {
@@ -21,14 +21,14 @@
 }
 
 .osd-bar-track {
-  background: rgba($text, 0.12);
-  border-radius: 99px;
+  background: rgba($text, 0.13);
+  border-radius: 999px;
   min-height: 5px;
 }
 
 .osd-bar-fill {
   background: $accent;
-  border-radius: 99px;
+  border-radius: 999px;
   min-height: 5px;
 }
 
@@ -36,5 +36,5 @@
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 10px;
   color: $text-dim;
-  min-width: 32px;
+  font-weight: 400;
 }

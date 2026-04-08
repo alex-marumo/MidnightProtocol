@@ -5,7 +5,6 @@ import { queryLauncher, execute } from "./launcherlogic"
 export default function Launcher() {
   let debounceTimer: number | null = null
 
-  // 1. The Result List
   const list = new Gtk.Box({
     orientation: Gtk.Orientation.VERTICAL,
     css_classes: ["launcher-list"],
@@ -35,7 +34,6 @@ export default function Launcher() {
           icon_name: item.icon || "system-run-symbolic",
           pixel_size: 28,
         })
-
         img.set_margin_start(8)
 
         const labels = new Gtk.Box({
@@ -50,7 +48,6 @@ export default function Launcher() {
             xalign: 0,
           }),
         )
-
         if (item.subtitle) {
           labels.append(
             new Gtk.Label({
@@ -69,7 +66,6 @@ export default function Launcher() {
     }, 150) as unknown as number
   }
 
-  // 2. The Search Entry
   const searchEntry = new Gtk.Entry({
     placeholder_text: 'Type ">" for commands...',
     hexpand: true,
@@ -85,7 +81,6 @@ export default function Launcher() {
     }
   })
 
-  // 3. The Layout Container
   const container = new Gtk.Box({
     orientation: Gtk.Orientation.VERTICAL,
     css_classes: ["caelestia-pod"],
@@ -94,7 +89,6 @@ export default function Launcher() {
   container.append(list)
   container.append(searchEntry)
 
-  // 4. The Window Shell
   const win = new Astal.Window({
     name: "launcher",
     application: app,
@@ -105,9 +99,15 @@ export default function Launcher() {
     css_classes: ["launcher-window"],
   })
 
+  // Force RGBA visual for xray
+  const screen = win.get_screen?.()
+  if (screen) {
+    const visual = screen.get_rgba_visual?.()
+    if (visual) win.set_visual(visual)
+  }
+
   win.set_child(container)
 
-  // Focus and Reset
   win.connect("notify::visible", () => {
     if (win.visible) {
       searchEntry.set_text("")

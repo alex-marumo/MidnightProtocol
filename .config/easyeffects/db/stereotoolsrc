@@ -1,2 +1,4 @@
 [soe][StereoTools#0]
+inputGain=-1
+outputGain=-3
 stereoBase=0.25

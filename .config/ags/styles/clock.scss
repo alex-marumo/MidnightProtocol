@@ -1,21 +1,21 @@
 @use "../colors" as *;
 
-// ── Clock ─────────────────────────────────────────────
+// ── Clock ─────────────────────────────────────────
 .clock-box {
   padding: 0;
 }
 
 .clock {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   color: $text;
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  line-height: 1.2;
+  letter-spacing: -0.03em;
 }
 
 .clock-seconds {
   font-size: 7px;
-  color: rgba($text, 0.2);
+  color: rgba($text, 0.25);
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
 }
 
@@ -23,25 +23,16 @@
   font-size: 8px;
   color: $text-dim;
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
 }
 
-// ── Clock popover ─────────────────────────────────────
-popover.clock-popover {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-}
-
+// Popover
 popover.clock-popover > contents {
-  background-color: $bg-deep;
-  border-radius: 16px;
-  border: 1px solid rgba($accent, 0.15);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
-  padding: 0;
-  margin: 0;
+  background-color: $bg-base;
+  opacity: 0.95;
+  border: 1px solid rgba($accent, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
 }
 
 .clock-pop-box {
@@ -49,48 +40,28 @@ popover.clock-popover > contents {
   min-width: 200px;
 }
 
-.clock-pop-date {
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  font-size: 9px;
-  color: $text-dim;
-  letter-spacing: 0.06em;
-}
-
 .clock-pop-time {
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   color: $text;
-  letter-spacing: 0.04em;
-  margin-bottom: 2px;
-}
-
-.clock-pop-row {
-  padding: 2px 0;
+  letter-spacing: 0.5px;
 }
 
 .clock-pop-label {
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  letter-spacing: 0.8px;
   color: $text-faint;
 }
 
-.clock-pop-pct {
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  font-size: 8px;
-  color: $accent;
-}
-
 .clock-pop-track {
-  background: rgba($text, 0.08);
-  border-radius: 99px;
+  background: rgba($text, 0.09);
+  border-radius: 999px;
   min-height: 3px;
 }
 
 .clock-pop-fill {
   background: $accent;
-  border-radius: 99px;
+  border-radius: 999px;
   min-height: 3px;
 }

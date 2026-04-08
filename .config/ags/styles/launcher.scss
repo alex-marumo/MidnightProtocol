@@ -1,59 +1,54 @@
 @use "../colors" as *;
 
-// ── Launcher ──────────────────────────────────────────
+// ── Launcher ────────────────────────────────
 .launcher-window {
   background: transparent;
-  background-color: transparent;
 }
 
 .caelestia-pod {
-  background-color: rgba($bg-base, 0.82);
-  border: 1px solid rgba($accent, 0.25);
-  border-radius: 32px;
+  background-color: $bg-base;
+  opacity: 0.91;
+  border: 1px solid rgba($accent, 0.28);
+  border-radius: 6px;
   padding: 20px;
   margin-bottom: 30px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
   min-width: 440px;
 }
 
 .launcher-item {
   background: transparent;
   border: 1px solid transparent;
-  border-radius: 99rem;
-  padding: 10px 20px;
-  margin-bottom: 6px;
-  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 5px;
+  padding: 10px 18px;
+  margin-bottom: 5px;
+  transition: all 180ms ease;
 
   &:hover,
   &.launcher-selected {
-    background: rgba($accent, 0.15);
-    border: 1px solid rgba($accent, 0.3);
-    transform: translateY(-1px);
+    background: rgba($accent, 0.12);
+    border-color: rgba($accent, 0.25);
   }
 
   .launcher-title {
     color: $text;
-    font-weight: 600;
+    font-weight: 400;
   }
 }
 
 .launcher-entry {
   all: unset;
-  background-color: rgba($bg-card, 0.4);
-  border: 1px solid rgba($text, 0.1);
-  border-radius: 99rem;
+  background-color: rgba($bg-card, 0.45);
+  border: 1px solid rgba($text, 0.15);
+  border-radius: 5px;
   color: $text;
-  padding: 12px 24px;
+  padding: 12px 22px;
   margin-top: 16px;
   caret-color: $accent;
-
-  &,
-  & > text {
-    background: transparent;
-  }
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-weight: 400;
 
   &:focus {
-    border-color: rgba($accent, 0.5);
-    background-color: rgba($bg-card, 0.6);
+    border-color: rgba($accent, 0.45);
+    background-color: rgba($bg-card, 0.65);
   }
 }
