@@ -27,15 +27,15 @@ button {
 
 button:hover {
   background-color: rgba(255, 255, 255, 0.07);
-  border-color: #f8b0e8;
-  color: #f8b0e8;
+  border-color: #b7d07b;
+  color: #b7d07b;
 }
 
 button:focus {
   outline: none;
   background-color: rgba(255, 255, 255, 0.07);
-  border-color: #f8b0e8;
-  color: #f8b0e8;
+  border-color: #b7d07b;
+  color: #b7d07b;
 }
 
 #lock {

@@ -99,7 +99,6 @@ export default function Launcher() {
     css_classes: ["launcher-window"],
   })
 
-  // Force RGBA visual for xray
   const screen = win.get_screen?.()
   if (screen) {
     const visual = screen.get_rgba_visual?.()
