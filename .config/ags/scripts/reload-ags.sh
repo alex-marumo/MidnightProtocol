@@ -1,31 +1,19 @@
 #!/usr/bin/env bash
+# reload-ags.sh — watches colors.scss, restarts AGS with new colors
+# Triggered indirectly by waypaper → refresh_shell.sh → matugen
 
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
-export PULSE_RUNTIME_PATH="/run/user/$(id -u)/pulse"
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}"
 
-LOCKFILE="/tmp/reload-ags.lock"
+source /proc/$(pgrep -u "$USER" Hyprland | head -1)/environ 2>/dev/null | tr '\0' '\n' | grep -E 'WAYLAND|XDG|DBUS|DISPLAY' | while IFS='=' read -r k v; do export "$k=$v"; done
 
-[[ -f "$LOCKFILE" ]] && exit 0
-touch "$LOCKFILE"
-trap "rm -f $LOCKFILE" EXIT
+until [[ -f ~/.config/ags/colors.scss ]]; do sleep 0.5; done
 
-sleep 0.5
-
-WALLPAPER=$(swww query | grep -oP 'image: \K.*' | head -1)
-[[ -z "$WALLPAPER" || ! -f "$WALLPAPER" ]] && exit 1
-
-# Run matugen
-matugen image "$WALLPAPER" --mode dark --type scheme-expressive --source-color-index 0
-
-# Update hyprlock background image
-awk -v wp="$WALLPAPER" '
-  /^\$background_image/ { print "$background_image = " wp; next }
-  { print }
-' "$HOME/.config/hypr/hyprlock/colors.conf" >/tmp/hyprlock-colors.tmp &&
-  mv /tmp/hyprlock-colors.tmp "$HOME/.config/hypr/hyprlock/colors.conf"
-
-sleep 0.3
-ags quit 2>/dev/null
-sleep 0.2
-ags run "$HOME/.config/ags/app.ts" &
+while read -r; do
+  ags quit 2>/dev/null
+  sleep 0.3
+  ags run --gtk 4 &
+  sleep 0.5
+  while read -r -t 0.1; do :; done
+done < <(inotifywait -m -e close_write ~/.config/ags/colors.scss 2>/dev/null)

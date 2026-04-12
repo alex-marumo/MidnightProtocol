@@ -15,28 +15,3 @@
 @use "styles/osd";
 @use "styles/cc";
 @use "styles/launcher";
-
-.window,
-popover > contents,
-.cc-panel,
-.sysmon-card,
-.caelestia-pod,
-.osd-pill,
-.launcher-window > *,
-.sidebar,
-.pill,
-.ctrl-item {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.sidebar,
-.cc-panel,
-.sysmon-card,
-.caelestia-pod,
-.osd-pill,
-.pill {
-  background: $bg-base;
-  opacity: 0.9;
-  border: 1px solid rgba($accent, 0.22);
-}

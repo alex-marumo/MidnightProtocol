@@ -47,7 +47,7 @@ export function UptimeBar() {
     execAsync([
       "bash",
       "-c",
-      "nohup bash -c 'sleep 0.3 && ags run ~/.config/ags/app.ts' &>/dev/null & ags quit",
+      "nohup bash -c 'sleep 0.2 && ags run --gtk 4' &>/dev/null & ags quit",
     ]).catch(() => {}),
   )
 
