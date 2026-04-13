@@ -1,4 +1,4 @@
 [soe][Convolver#0]
 inputGain=-1
 kernelName=Dolby ATMOS ((128K MP3)) 1.Default
-outputGain=-2
+outputGain=3
