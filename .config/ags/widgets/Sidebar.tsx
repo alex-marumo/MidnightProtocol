@@ -57,7 +57,7 @@ export default function Sidebar(monitor: Gdk.Monitor) {
           cssClasses={["pill"]}
           orientation={Gtk.Orientation.VERTICAL}
           halign={Gtk.Align.CENTER}
-          spacing={6}
+          spacing={2}
         >
           <Clock />
           <box cssClasses={["separator-line"]} />

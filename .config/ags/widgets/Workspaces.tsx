@@ -3,7 +3,7 @@ import GLib from "gi://GLib"
 
 const Hyprland = (await import("gi://AstalHyprland")).default.get_default()
 
-const kanji = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
+const wks = ["☿", "♀", "♂", "♃", "♄", "♅", "♆", "♇", "☉", "☽"]
 
 export default function Workspaces() {
   const box = new Gtk.Box({
@@ -41,7 +41,7 @@ export default function Workspaces() {
     const btn = new Gtk.Button({ halign: Gtk.Align.CENTER })
     btn.add_css_class("ws-btn")
 
-    const lbl = new Gtk.Label({ label: kanji[i] })
+    const lbl = new Gtk.Label({ label: wks[i] })
     btn.set_child(lbl)
 
     btn.connect("clicked", () => {

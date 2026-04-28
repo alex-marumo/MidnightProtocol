@@ -2,5 +2,5 @@
 frequency=150
 gain=-10
 inputGain=-3
-outputGain=3
+outputGain=6
 type=1

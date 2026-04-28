@@ -13,24 +13,31 @@ function hexToRgb(hex: string): [number, number, number] {
 let prevIdle = 0,
   prevTotal = 0
 
-async function getCpuUsage(): Promise<number> {
-  const raw = await execAsync([
-    "bash",
-    "-c",
-    "awk 'NR==1{print $2,$3,$4,$5,$6,$7,$8}' /proc/stat",
-  ])
-  const [user, nice, sys, idle, iowait, irq, softirq] = raw
-    .trim()
-    .split(" ")
-    .map(Number)
-  const total = user + nice + sys + idle + iowait + irq + softirq
-  const usage =
-    prevTotal > 0
-      ? Math.round((1 - (idle - prevIdle) / (total - prevTotal)) * 100)
-      : 0
-  prevIdle = idle
-  prevTotal = total
-  return Math.max(0, Math.min(100, usage))
+function getCpuUsage(): number {
+  try {
+    const [ok, bytes] = GLib.file_get_contents("/proc/stat")
+    if (!ok || !bytes) return 0
+
+    const line = new TextDecoder().decode(bytes).split("\n")[0]
+    const [, user, nice, sys, idle, iowait, irq, softirq] = line
+      .trim()
+      .split(/\s+/)
+      .map(Number)
+
+    const total = user + nice + sys + idle + iowait + irq + softirq
+    const dTotal = total - prevTotal
+    const dIdle = idle - prevIdle
+
+    const usage =
+      prevTotal > 0 && dTotal > 0 ? Math.round((1 - dIdle / dTotal) * 100) : 0
+
+    prevIdle = idle
+    prevTotal = total
+    return Math.max(0, Math.min(100, usage))
+  } catch (e) {
+    console.error("getCpuUsage error:", e)
+    return 0
+  }
 }
 
 async function getRamInfo(): Promise<{ pct: number; str: string }> {
@@ -66,8 +73,8 @@ const [uptime, setUptime] = createState("—")
 
 async function pollStats() {
   try {
-    const [c, ri, si, up] = await Promise.all([
-      getCpuUsage(),
+    const c = getCpuUsage()
+    const [ri, si, up] = await Promise.all([
       getRamInfo(),
       getSwapInfo(),
       getUptime(),
@@ -76,9 +83,12 @@ async function pollStats() {
     setRam(ri.pct)
     setSwap(si.pct)
     setUptime(up)
-  } catch (_) {}
+  } catch (e) {
+    console.error("pollStats error:", e)
+  }
 }
 
+// initial call + poll every 2s
 pollStats()
 GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 2, () => {
   pollStats()
