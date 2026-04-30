@@ -1,5 +1,5 @@
 import { Astal, Gtk, Gdk } from "ags/gtk4"
-import Logo from "./Logo"
+import AIChat from "./AIChat"
 import Workspaces from "./Workspaces"
 import SysMon from "./SysMon"
 import Media from "./Media"
@@ -30,7 +30,7 @@ export default function Sidebar(monitor: Gdk.Monitor) {
       >
         {/* Logo */}
         <box cssClasses={["pill"]} halign={Gtk.Align.CENTER}>
-          <Logo />
+          <AIChat />
         </box>
 
         {/* Center: SysMon + Workspaces */}

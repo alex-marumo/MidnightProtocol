@@ -1,0 +1,188 @@
+@use "colors" as *;
+
+popover.ai-popover > contents {
+  background: $bg-deep;
+  border: 1px solid rgba($accent, 0.22);
+  border-radius: 7px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  padding: 0;
+  margin-left: 12px;
+}
+
+.ai-card {
+  border-radius: 7px;
+  font-family: "IosevkaTerm NF", monospace;
+}
+
+.ai-header {
+  padding: 8px 12px;
+  background: rgba($bg-card, 0.5);
+}
+
+.ai-status-dot {
+  color: $accent;
+  font-size: 7px;
+}
+
+.ai-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: $text;
+  letter-spacing: 0.12em;
+}
+
+.ai-model-tag {
+  font-size: 10px;
+  color: rgba($accent, 0.55);
+  letter-spacing: 0.06em;
+}
+
+.ai-icon-btn {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: $text-dim;
+  font-size: 25px;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    background: rgba($text, 0.08);
+    color: $text;
+  }
+}
+
+.ai-sep {
+  background: rgba($accent, 0.1);
+  min-height: 1px;
+}
+
+.ai-scroll {
+  background: transparent;
+}
+
+.ai-message-list {
+  padding: 10px 10px 6px 10px;
+}
+
+.ai-greeting {
+  padding: 6px 4px 10px 4px;
+  border-bottom: 1px solid rgba($accent, 0.08);
+  margin-bottom: 6px;
+}
+
+.ai-greeting-moon {
+  font-size: 16px;
+  color: rgba($accent, 0.7);
+}
+
+.ai-greeting-text {
+  font-size: 11px;
+  font-style: italic;
+  color: rgba($text, 0.35);
+  letter-spacing: 0.04em;
+}
+
+.ai-line {
+  padding: 1px 4px;
+
+  &:hover {
+    background: rgba($text, 0.03);
+    border-radius: 3px;
+  }
+}
+
+.ai-ts {
+  font-size: 10px;
+  color: rgba($text, 0.22);
+  letter-spacing: 0.02em;
+}
+
+.ai-handle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  min-width: 20px;
+
+  &--user {
+    color: $accent;
+  }
+
+  &--assistant {
+    color: rgba($text, 0.45);
+  }
+}
+
+.ai-chevron {
+  font-size: 9px;
+
+  &--user {
+    color: rgba($accent, 0.5);
+  }
+
+  &--assistant {
+    color: rgba($text, 0.2);
+  }
+}
+
+.ai-body {
+  font-size: 12px;
+  line-height: 1.5;
+
+  &--user {
+    color: $text;
+  }
+
+  &--assistant {
+    color: $text-dim;
+  }
+}
+
+.ai-input-row {
+  padding: 8px 10px;
+  background: rgba($bg-card, 0.25);
+}
+
+.ai-prompt {
+  font-size: 12px;
+  color: $accent;
+  font-weight: 700;
+}
+
+.ai-input-row scrolledwindow {
+  background: transparent;
+  border: 1px solid rgba($text, 0.1);
+  border-radius: 4px;
+
+  &:focus-within {
+    border-color: rgba($accent, 0.38);
+  }
+}
+
+.ai-input {
+  background: transparent;
+  color: $text;
+  font-family: "IosevkaTerm NF", monospace;
+  font-size: 12px;
+  padding: 4px 8px;
+  caret-color: $accent;
+}
+
+.ai-send-btn {
+  background: rgba($accent, 0.12);
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: 4px;
+  padding: 4px 8px;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    background: rgba($accent, 0.24);
+  }
+}
+
+.ai-send-icon {
+  color: $accent;
+  font-size: 25px;
+}

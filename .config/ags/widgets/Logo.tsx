@@ -1,5 +1,8 @@
-import { Gtk } from "ags/gtk4"
-import { execAsync } from "ags/process"
+import { Gtk, Gdk } from "ags/gtk4"
+import AIChat from "./AIChat"
+
+// ─── Window reference ─────────────────────────────────────────────────────────
+let aiWindow: ReturnType<typeof AIChat> | null = null
 
 export default function Logo() {
   const btn = new Gtk.Button({ cssClasses: ["logo-btn"] })
@@ -10,11 +13,26 @@ export default function Logo() {
     label: "鬼",
     halign: Gtk.Align.CENTER,
   })
-
   btn.set_child(lbl)
-  btn.connect("clicked", () =>
-    execAsync(["fuzzel", "-show", "drun"]).catch(() => {}),
-  )
+
+  btn.connect("clicked", () => {
+    if (aiWindow) {
+      aiWindow.destroy()
+      aiWindow = null
+    } else {
+      const monitor = btn
+        .get_display()
+        ?.get_monitors()
+        ?.get_item(0) as Gdk.Monitor
+      if (!monitor) return
+
+      aiWindow = AIChat(monitor)
+
+      aiWindow.connect("destroy", () => {
+        aiWindow = null
+      })
+    }
+  })
 
   return btn
 }
