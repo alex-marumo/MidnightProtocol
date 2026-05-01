@@ -3,6 +3,12 @@ import { createState } from "ags"
 import GLib from "gi://GLib"
 import GdkPixbuf from "gi://GdkPixbuf"
 
+GLib.log_set_handler(
+  null,
+  GLib.LogLevelFlags.LEVEL_CRITICAL | GLib.LogLevelFlags.LEVEL_WARNING,
+  () => {},
+)
+
 const MprisModule = await import("gi://AstalMpris")
 const MprisClass = MprisModule.default
 const Mpris = MprisClass.get_default()

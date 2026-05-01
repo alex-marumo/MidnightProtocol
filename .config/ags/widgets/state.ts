@@ -1,5 +1,6 @@
 import { createPoll } from "ags/time"
 import { execAsync } from "ags/process"
+import GLib from "gi://GLib"
 
 export const keyboard = createPoll("EN", 3000, [
   "bash",
@@ -53,10 +54,19 @@ export const toggleWifi = () =>
       : "nmcli radio wifi on",
   ]).catch(() => {})
 
-export const toggleBt = async () => {
+export const toggleBt = () => {
   const newState = btOn.get().trim() === "1" ? "off" : "on"
-  await execAsync(["bash", "-c", `~/.config/hypr/scripts/bt-persist.sh ${newState}`]).catch(() => {})
-  btOn.poll()
+  const home = GLib.get_home_dir()
+  execAsync(["bash", `${home}/.config/hypr/hyprland/scripts/bt-persist.sh`, newState])
+    .catch((err) => {
+      console.error("toggleBt failed:", err)
+      // Fallback to direct toggle if script fails
+      execAsync([
+        "bash",
+        "-c",
+        newState === "on" ? "bluetoothctl power on" : "bluetoothctl power off"
+      ]).catch(() => {})
+    })
 }
 
 export const toggleMute = () =>
