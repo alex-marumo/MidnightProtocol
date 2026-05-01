@@ -53,14 +53,11 @@ export const toggleWifi = () =>
       : "nmcli radio wifi on",
   ]).catch(() => {})
 
-export const toggleBt = () =>
-  execAsync([
-    "bash",
-    "-c",
-    btOn.get().trim() === "1"
-      ? "bluetoothctl power off"
-      : "bluetoothctl power on",
-  ]).catch(() => {})
+export const toggleBt = async () => {
+  const newState = btOn.get().trim() === "1" ? "off" : "on"
+  await execAsync(["bash", "-c", `~/.config/hypr/scripts/bt-persist.sh ${newState}`]).catch(() => {})
+  btOn.poll()
+}
 
 export const toggleMute = () =>
   execAsync(["wpctl", "set-mute", "@DEFAULT_SINK@", "toggle"]).catch(() => {})

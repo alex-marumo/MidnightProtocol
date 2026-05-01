@@ -188,8 +188,6 @@ export default function Controls() {
   }
 
   btToggleBtn.connect("clicked", () => {
-    const isOn = btOn.get().trim() === "1"
-    syncBt(isOn ? "0" : "1")
     toggleBt()
   })
   syncBt(btOn.get())
@@ -214,7 +212,9 @@ export default function Controls() {
     cssClasses: ["ctrl-mini-btn"],
   })
   btToolBtn.connect("clicked", () =>
-    execAsync(["foot", "-e", "bluetui"]).catch(() => {}),
+    execAsync(["bash", "-c", "kitty --class floating_kitty bluetui"]).catch(
+      () => {},
+    ),
   )
   btBox.append(btToolBtn)
 
