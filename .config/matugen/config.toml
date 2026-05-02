@@ -1,0 +1,29 @@
+[config]
+reload_apps = true
+
+[templates.ags-colors]
+input_path = "~/.config/matugen/templates/ags-colors.scss"
+output_path = "~/.config/ags/colors.scss"
+
+[templates.kitty-colors]
+input_path = "~/.config/matugen/templates/kitty-colors.conf"
+output_path = "~/.config/kitty/current-theme.conf"
+post_hook = "bash -c 'for s in /tmp/kitty-socket-*; do kitty @ --to unix://$s set-colors --all --configured ~/.config/kitty/current-theme.conf; done || true'"
+
+[templates.hypr-colors]
+input_path = "~/.config/matugen/templates/hypr-colors.conf"
+output_path = "~/.config/hypr/colors.conf"
+
+[templates.hyprlock-colors]
+input_path = "~/.config/matugen/templates/hyprlock-colors.conf"
+output_path = "~/.config/hypr/hyprlock/colors.conf"
+
+[templates.wlogout]
+input_path = "~/.config/matugen/templates/wlogout-style.css"
+output_path = "~/.config/wlogout/style.css"
+
+[templates.greetd]
+input_path = "~/.config/matugen/templates/greetd-config.toml"
+output_path = "/etc/greetd/text.toml"
+
+

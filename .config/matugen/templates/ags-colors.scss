@@ -1,0 +1,31 @@
+$bg-base: rgba(0, 0, 0, 0.88);
+$bg-card: rgba(8, 8, 8, 0.92);
+$bg-deep: rgba(0, 0, 0, 0.96);
+
+$border: rgba(255, 255, 255, 0.06);
+
+$text-primary: {{colors.on_surface.default.hex}};
+$text-secondary: rgba({{colors.on_surface_variant.default.red}}, {{colors.on_surface_variant.default.green}}, {{colors.on_surface_variant.default.blue}}, 0.7);
+$text-tertiary: rgba({{colors.outline.default.red}}, {{colors.outline.default.green}}, {{colors.outline.default.blue}}, 0.5);
+
+$surface: {{colors.surface_container.default.hex}};
+
+$accent-primary: {{colors.primary.default.hex}};
+$accent-secondary: {{colors.secondary.default.hex}};
+
+$accent-glow-weak: rgba({{colors.primary.default.red}}, {{colors.primary.default.green}}, {{colors.primary.default.blue}}, 0.25);
+$accent-glow: rgba({{colors.primary.default.red}}, {{colors.primary.default.green}}, {{colors.primary.default.blue}}, 0.55);
+$accent-glow-strong: rgba({{colors.primary.default.red}}, {{colors.primary.default.green}}, {{colors.primary.default.blue}}, 0.9);
+$accent-subtle: rgba({{colors.primary.default.red}}, {{colors.primary.default.green}}, {{colors.primary.default.blue}}, 0.12);
+
+$warn: #ffb300;
+$danger: #ff3b3b;
+
+$dot: rgba(255, 255, 255, 0.4);
+
+$mono: "JetBrainsMono Nerd Font", monospace;
+
+$accent: $accent-primary;
+$text: $text-primary;
+$text-dim: $text-secondary;
+$text-faint: $text-tertiary;

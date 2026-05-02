@@ -1,54 +1,82 @@
 @use "../colors" as *;
-
 // ── Controls ──────────────────────────────────────
 .controls {
   padding: 1px 0;
 }
-
 .ctrl-item {
-  background-color: rgba($bg-card, 0.32);
-  border: 1px solid rgba($text, 0.1);
-  border-radius: 5px;
-  padding: 5px;
-  color: $text-dim;
+  background-color: rgba($surface, 0.25);
+  border: 1px solid rgba($text-tertiary, 0.12);
+  border-radius: 0;
+  padding: 1px 4px;
+  color: $text-secondary;
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 12px;
   font-weight: 400;
-
+  transition: all 120ms ease;
+  /* idle */
+  opacity: 0.7;
+  /* hover */
   &:hover {
-    background-color: rgba($bg-card, 0.48);
+    background-color: rgba($accent-primary, 0.06);
+    border-color: rgba($accent-primary, 0.25);
+    color: $text-primary;
+    opacity: 1;
   }
+  /* active state */
   &.ctrl-active {
-    background-color: rgba($accent, 0.11);
-    border-color: rgba($accent, 0.32);
-    color: $accent;
+    background-color: rgba($accent-primary, 0.12);
+    border-color: rgba($accent-primary, 0.45);
+    color: $text-primary;
+    box-shadow: 0 0 8px rgba($accent-primary, 0.2);
+    opacity: 1;
   }
 }
 
 popover.ctrl-popover > contents {
   background: $bg-deep;
-  opacity: 0.95;
-  border: 1px solid rgba($accent, 0.22);
-  border-radius: 6px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba($accent-primary, 0.25);
+  border-radius: 0;
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  padding: 0;
 }
 
 .ctrl-panel {
   background: rgba($bg-card, 0.38);
-  border-radius: 5px;
-  padding: 8px 10px;
+  padding: 16px 20px;
 }
 
 .ctrl-mini-btn,
 .ctrl-net-btn {
-  border-radius: 5px;
-  background: rgba($text, 0.09);
+  background: rgba($accent-primary, 0.15);
+  border: 1px solid rgba($accent-primary, 0.45);
+  border-radius: 0;
+  color: $accent-primary;
+  font-family: $mono;
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 6px 10px;
+  transition: all 120ms ease;
+  box-shadow:
+    0 0 12px rgba($accent-primary, 0.3),
+    inset 0 0 8px rgba($accent-primary, 0.1);
+
   &:hover {
-    background: rgba($accent, 0.14);
-    color: $accent;
+    background: rgba($accent-primary, 0.25);
+    border-color: rgba($accent-primary, 0.65);
+    color: $text-primary;
+    box-shadow:
+      0 0 16px rgba($accent-primary, 0.5),
+      inset 0 0 12px rgba($accent-primary, 0.2);
   }
 }
 
 .ctrl-pwd-entry {
-  border-radius: 5px;
+  background: rgba($text-tertiary, 0.12);
+  border-radius: 0;
+  color: $text-primary;
+  font-family: $mono;
 }

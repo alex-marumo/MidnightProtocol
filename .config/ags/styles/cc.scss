@@ -9,23 +9,25 @@
 }
 
 .cc-panel {
-  background: $bg-base;
-  opacity: 0.7;
-  border: 1px solid rgba($accent, 0.2);
-  border-radius: 6px;
-  min-width: 280px;
-  padding: 16px 14px;
+  background: rgba(0, 0, 0, 0.92);
+  border: 1px solid rgba($accent-primary, 0.35);
+  border-radius: 0;
+  min-width: 320px;
+  padding: 12px;
 }
 
 // header
 .cc-uptime-row {
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  padding-bottom: 0;
+  border-bottom: 1px solid rgba($accent-primary, 0.12);
 }
 .cc-uptime {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 9px;
-  letter-spacing: 1.5px;
-  color: rgba($text, 0.35);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba($text-primary, 0.3);
   font-weight: 400;
 }
 
@@ -34,35 +36,37 @@
 
 // header action pills
 .cc-hdr-pill {
-  background: rgba($text, 0.06);
-  border: 1px solid rgba($text, 0.11);
-  border-radius: 5px;
+  background: rgba($text-secondary, 0.08);
+  border: 1px solid rgba($text-secondary, 0.15);
+  border-radius: 0;
   padding: 3px 8px;
   font-weight: 400;
 }
 .cc-hdr-pill:hover {
-  background: rgba($text, 0.1);
+  background: rgba($accent-primary, 0.08);
+  border-color: rgba($accent-primary, 0.25);
 }
 .cc-hdr-pill-active {
-  background: rgba($accent, 0.12);
-  border-color: rgba($accent, 0.35);
+  background: rgba($accent-primary, 0.1);
+  border-color: rgba($accent-primary, 0.4);
 }
 .cc-hdr-pill-active .cc-hdr-pill-icon {
-  color: $accent;
+  color: $accent-primary;
 }
 .cc-hdr-pill-active .cc-hdr-pill-label {
-  color: $accent;
+  color: $accent-primary;
 }
 .cc-hdr-pill-icon {
   font-family: "Symbols Nerd Font Mono";
   font-size: 12px;
-  color: rgba($text, 0.42);
+  color: rgba($text-primary, 0.4);
 }
 .cc-hdr-pill-label {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 8px;
-  letter-spacing: 1px;
-  color: rgba($text, 0.38);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba($text-primary, 0.35);
   font-weight: 400;
 }
 
@@ -71,34 +75,35 @@
   margin: 0;
 }
 .cc-slider-row {
-  margin: 4px 0;
+  margin: 6px 0;
 }
 .cc-slider-icon {
   font-family: "Symbols Nerd Font Mono";
   font-size: 12px;
   min-width: 16px;
-  color: rgba($text, 0.52);
+  color: rgba($text-primary, 0.5);
 }
 .cc-vol-icon,
 .cc-bri-icon {
-  color: rgba($text, 0.58);
+  color: rgba($text-primary, 0.55);
 }
 .cc-slider {
   trough {
-    background: rgba($text, 0.09);
-    border-radius: 2px;
-    min-height: 3px;
+    background: rgba($text-secondary, 0.12);
+    border-radius: 0;
+    min-height: 2px;
   }
   highlight {
-    background: $accent;
-    border-radius: 2px;
+    background: $accent-primary;
+    border-radius: 0;
   }
   slider {
-    background: $text;
-    border-radius: 3px;
-    min-width: 8px;
-    min-height: 8px;
-    margin: -3px 0;
+    background: $accent-primary;
+    border: 1px solid rgba($accent-primary, 0.5);
+    border-radius: 0;
+    min-width: 10px;
+    min-height: 10px;
+    margin: -4px 0;
   }
 }
 
@@ -107,79 +112,83 @@
   margin: 0;
 }
 .cc-pill {
-  background: rgba($bg-card, 0.72);
-  border: 1px solid rgba($text, 0.11);
-  border-radius: 5px;
-  min-height: 38px;
+  background: rgba($surface, 0.5);
+  border: 1px solid rgba($text-secondary, 0.15);
+  border-radius: 0;
+  min-height: 36px;
 }
 .cc-pill-active {
-  background: rgba($accent, 0.1);
-  border-color: rgba($accent, 0.35);
+  background: rgba($accent-primary, 0.08);
+  border-color: rgba($accent-primary, 0.4);
 }
 .cc-pill-icon-btn {
   background: transparent;
   border: none;
-  border-radius: 5px 0 0 5px;
-  padding: 6px 10px;
+  border-radius: 0;
+  padding: 8px 12px;
   &:hover {
-    background: rgba($text, 0.06);
+    background: rgba($accent-primary, 0.05);
   }
 }
 .cc-pill-icon {
   font-family: "Symbols Nerd Font Mono";
   font-size: 14px;
-  color: rgba($text, 0.28);
+  color: rgba($text-primary, 0.25);
 }
 .cc-pill-active .cc-pill-icon {
-  color: $accent;
+  color: $accent-primary;
 }
 .cc-pill-div {
-  background: rgba($text, 0.08);
+  background: rgba($text-secondary, 0.12);
   min-width: 1px;
-  margin: 8px 0;
+  margin: 10px 0;
 }
 .cc-pill-label-btn {
   background: transparent;
   border: none;
-  border-radius: 0 5px 5px 0;
-  padding: 6px 8px;
+  border-radius: 0;
+  padding: 8px 10px;
   &:hover {
-    background: rgba($text, 0.05);
+    background: rgba($accent-primary, 0.04);
   }
 }
 .cc-pill-label {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 8px;
-  letter-spacing: 0.6px;
-  color: rgba($text, 0.35);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba($text-primary, 0.3);
   font-weight: 400;
 }
 .cc-pill-active .cc-pill-label {
-  color: rgba($text, 0.72);
+  color: rgba($text-primary, 0.7);
 }
 
 // tabs
 .cc-tab-bar {
-  border-bottom: 1px solid rgba($text, 0.09);
-  margin-bottom: 8px;
+  border-bottom: 1px solid rgba($accent-primary, 0.15);
+  margin-bottom: 10px;
 }
 .cc-tab-btn {
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  padding: 5px 10px;
+  padding: 8px 12px;
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 8px;
-  letter-spacing: 1.2px;
-  color: rgba($text, 0.32);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba($text-primary, 0.3);
   font-weight: 400;
   &:hover {
-    color: rgba($text, 0.65);
+    color: rgba($text-primary, 0.6);
+    background: rgba($accent-primary, 0.03);
   }
 }
 .cc-tab-active {
-  color: $text;
-  border-bottom-color: $accent;
+  color: $accent-primary;
+  border-bottom-color: $accent-primary;
+  background: rgba($accent-primary, 0.05);
 }
 
 // notifications
@@ -192,124 +201,137 @@
 .cc-notif-empty {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 8px;
-  letter-spacing: 1px;
-  color: rgba($text, 0.18);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba($text-primary, 0.15);
 }
 .cc-notif-card {
-  background: rgba($bg-card, 0.72);
-  border-radius: 5px;
-  border: 1px solid rgba($text, 0.09);
-  border-left: 3px solid $accent;
-  padding: 6px 8px;
-  margin-bottom: 4px;
+  background: rgba($surface, 0.4);
+  border-radius: 0;
+  border: 1px solid rgba($text-secondary, 0.12);
+  border-left: 2px solid $accent-primary;
+  padding: 8px 10px;
+  margin-bottom: 6px;
 }
 .cc-notif-app {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 7px;
-  letter-spacing: 1.5px;
-  color: rgba($accent, 0.68);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba($accent-primary, 0.6);
 }
 .cc-notif-summary {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 9px;
-  font-weight: 500;
-  color: $text;
+  font-weight: 600;
+  color: $text-primary;
 }
 .cc-notif-body {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 8px;
-  color: rgba($text, 0.38);
+  color: rgba($text-primary, 0.35);
 }
 .cc-notif-close {
   background: transparent;
-  border: none;
-  padding: 0 3px;
-  color: rgba($text, 0.25);
+  border: 1px solid rgba($text-secondary, 0.1);
+  border-radius: 0;
+  padding: 2px 6px;
+  color: rgba($text-primary, 0.25);
   &:hover {
-    color: $accent;
+    color: $danger;
+    border-color: rgba($danger, 0.3);
+    background: rgba($danger, 0.05);
   }
 }
 .cc-notif-clear {
   background: transparent;
-  border: 1px solid rgba($text, 0.1);
-  border-radius: 5px;
-  padding: 3px 8px;
+  border: 1px solid rgba($text-secondary, 0.15);
+  border-radius: 0;
+  padding: 4px 10px;
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 7px;
-  letter-spacing: 1px;
-  color: rgba($text, 0.3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba($text-primary, 0.3);
   &:hover {
-    border-color: rgba($accent, 0.35);
-    color: $accent;
+    border-color: rgba($accent-primary, 0.4);
+    background: rgba($accent-primary, 0.08);
+    color: $accent-primary;
   }
 }
 
 // audio section
 .cc-audio-container {
-  background: $bg-base;
-  opacity: 0.88;
-  border-radius: 6px;
-  padding: 16px;
-  margin: 10px;
+  background: rgba(0, 0, 0, 0.88);
+  border-radius: 0;
+  border: 1px solid rgba($accent-primary, 0.2);
+  padding: 18px;
+  margin: 0;
 }
 
 .cc-audio-card {
-  background: rgba($bg-card, 0.72);
-  border-radius: 5px;
-  padding: 8px 10px;
-  margin-bottom: 4px;
+  background: rgba($surface, 0.4);
+  border-radius: 0;
+  border: 1px solid rgba($text-secondary, 0.1);
+  padding: 10px 12px;
+  margin-bottom: 6px;
 }
 
 .cc-audio-source {
-  color: $accent;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.8px;
+  color: $accent-primary;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
 .cc-audio-title {
-  color: $text;
-  font-weight: 500;
-  font-size: 14px;
+  color: $text-primary;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 .cc-audio-artist {
-  color: $text;
-  opacity: 0.62;
-  font-size: 12px;
+  color: $text-secondary;
+  opacity: 0.6;
+  font-size: 11px;
 }
 
 .cc-audio-ctrl-btn {
   background: transparent;
-  color: $text;
-  border-radius: 5px;
-  padding: 4px;
+  border: 1px solid rgba($text-secondary, 0.12);
+  color: $text-secondary;
+  border-radius: 0;
+  padding: 6px;
   &:hover {
-    background: rgba($accent, 0.14);
+    background: rgba($accent-primary, 0.1);
+    border-color: rgba($accent-primary, 0.3);
+    color: $accent-primary;
   }
 }
 
 .cc-vis-box {
-  margin-top: 16px;
+  margin-top: 18px;
   min-height: 40px;
 }
 
 .cc-vis-line {
-  background: $accent;
-  min-width: 4px;
-  border-radius: 2px;
-  transition: min-height 180ms ease;
+  background: $accent-primary;
+  min-width: 3px;
+  border-radius: 0;
+  transition: min-height 120ms cubic-bezier(0.2, 0, 0.8, 1);
 }
 
 .cc-audio-play-btn {
-  background: rgba($accent, 0.11);
-  color: $accent;
-  border-radius: 5px;
-  padding: 10px;
+  background: rgba($accent-primary, 0.1);
+  color: $accent-primary;
+  border: 1px solid rgba($accent-primary, 0.35);
+  border-radius: 0;
+  padding: 12px;
   &:hover {
-    background: rgba($accent, 0.22);
+    background: rgba($accent-primary, 0.2);
+    border-color: rgba($accent-primary, 0.5);
   }
 }
 
@@ -317,7 +339,7 @@
 .cc-calendar {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 9px;
-  color: $text;
+  color: $text-primary;
   background: transparent;
   border: none;
 }
@@ -326,48 +348,60 @@
   padding: 1px;
 }
 .cc-todo-row {
-  padding: 3px 0;
+  padding: 4px 0;
+  border-left: 2px solid transparent;
+  &:hover {
+    border-left-color: rgba($accent-primary, 0.3);
+  }
 }
 .cc-todo-lbl {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 9px;
-  color: rgba($text, 0.72);
+  color: rgba($text-primary, 0.7);
   font-weight: 400;
 }
 .cc-todo-del {
   background: transparent;
-  border: none;
-  padding: 0 3px;
-  color: rgba($text, 0.22);
+  border: 1px solid rgba($text-secondary, 0.1);
+  border-radius: 0;
+  padding: 2px 6px;
+  color: rgba($text-primary, 0.2);
   &:hover {
-    color: $accent;
+    color: $danger;
+    border-color: rgba($danger, 0.3);
+    background: rgba($danger, 0.05);
   }
 }
 .cc-todo-entry {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 9px;
-  border-radius: 5px;
-  background: rgba($bg-card, 0.72);
-  border: 1px solid rgba($text, 0.1);
-  padding: 5px 8px;
-  color: $text;
-  caret-color: $accent;
+  border-radius: 0;
+  background: rgba($surface, 0.4);
+  border: 1px solid rgba($text-secondary, 0.15);
+  padding: 6px 10px;
+  color: $text-primary;
+  caret-color: $accent-primary;
+  &:focus {
+    border-color: rgba($accent-primary, 0.4);
+  }
 }
 
 .cc-todo-done {
-  opacity: 0.52;
+  opacity: 0.5;
   .cc-todo-lbl {
     text-decoration: line-through;
-    color: rgba($text, 0.45);
+    color: rgba($text-primary, 0.4);
   }
 }
 
 .cc-todo-clear {
-  background: rgba($text, 0.07);
-  border-radius: 5px;
-  padding: 4px;
+  background: rgba($text-secondary, 0.08);
+  border: 1px solid rgba($text-secondary, 0.12);
+  border-radius: 0;
+  padding: 6px;
   &:hover {
-    background: rgba($accent, 0.12);
+    background: rgba($accent-primary, 0.1);
+    border-color: rgba($accent-primary, 0.3);
   }
 }
 
@@ -375,59 +409,65 @@
 .cc-timer-display {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 28px;
-  font-weight: 500;
-  color: $text;
-  letter-spacing: 2px;
+  font-weight: 600;
+  color: $text-primary;
+  letter-spacing: 0.08em;
 }
 .cc-timer-btn {
-  background: rgba($bg-card, 0.72);
-  border: 1px solid rgba($text, 0.11);
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 12px;
-  color: $text;
+  background: rgba($surface, 0.4);
+  border: 1px solid rgba($text-secondary, 0.15);
+  border-radius: 0;
+  padding: 6px 12px;
+  font-size: 11px;
+  color: $text-secondary;
   font-weight: 400;
   &:hover {
-    border-color: rgba($accent, 0.35);
-    color: $accent;
+    border-color: rgba($accent-primary, 0.4);
+    background: rgba($accent-primary, 0.08);
+    color: $accent-primary;
   }
 }
 .cc-timer-entry {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
   font-size: 10px;
-  border-radius: 5px;
-  background: rgba($bg-card, 0.72);
-  border: 1px solid rgba($text, 0.1);
-  padding: 5px 7px;
-  color: $text;
+  border-radius: 0;
+  background: rgba($surface, 0.4);
+  border: 1px solid rgba($text-secondary, 0.15);
+  padding: 6px 8px;
+  color: $text-primary;
+  caret-color: $accent-primary;
+  &:focus {
+    border-color: rgba($accent-primary, 0.4);
+  }
 }
 
 .cc-timer-colon {
   font-size: 12px;
-  color: var(--text-4);
+  color: $text-secondary;
   margin: 0 2px;
 }
 
 .cc-timer-status {
-  font-size: 10px;
-  color: var(--text-5);
-  letter-spacing: 1px;
+  font-size: 9px;
+  color: $text-tertiary;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .cc-timer-cycles {
   font-size: 9px;
-  color: var(--text-5);
-  letter-spacing: 0.5px;
+  color: $text-tertiary;
+  letter-spacing: 0.08em;
 }
 
 // sep
 .cc-sep {
-  background: rgba($text, 0.07);
+  background: rgba($accent-primary, 0.12);
   min-height: 1px;
-  margin: 4px 0;
+  margin: 6px 0;
 }
 
-// ── Strip (your original control panel strip) ─────────────────
+// ── Strip ─────────────────
 .cc-strip-window,
 .cc-strip-box {
   background: rgba(0, 0, 0, 0.01);

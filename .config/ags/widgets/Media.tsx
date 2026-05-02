@@ -113,6 +113,9 @@ function cairoBtn(
 function makeBar(phase0: number) {
   const da = new Gtk.DrawingArea()
   da.set_size_request(4, 20)
+
+  da.set_valign(Gtk.Align.CENTER)
+  da.set_halign(Gtk.Align.CENTER)
   let phase = phase0,
     active = false
   const start = () => {
@@ -142,6 +145,12 @@ function makeBar(phase0: number) {
 
 // ── Main ──────────────────────────────────────────────────────
 export default function Media() {
+  const BAR_WIDTH = 4
+  const BAR_SPACING = 3
+  const TOTAL_WIDTH = 28
+
+  const barCount = Math.floor(TOTAL_WIDTH / (BAR_WIDTH + BAR_SPACING))
+
   const [isPlaying, setIsPlaying] = createState(false)
   const [hasPlayer, setHasPlayer] = createState(false)
   // ── compact icon — 3 states: idle | paused | playing ─────
@@ -152,15 +161,16 @@ export default function Media() {
   type CompactState = "idle" | "paused" | "playing"
   let compactState: CompactState = "idle"
 
-  const bars = [0, 0.5, 1.1].map(makeBar)
+  const bars = Array.from({ length: barCount }, (_, i) => makeBar(i * 0.2))
 
   // note — idle state
   const noteDa = new Gtk.DrawingArea()
   noteDa.set_size_request(28, 28)
-  noteDa.set_draw_func((_w, cr) => drawNote(cr, 14, 14))
+  noteDa.set_draw_func((_w, cr) => drawNote(cr, 17, 17))
 
   const compactBox = new Gtk.Box()
-  compactBox.set_spacing(2)
+  compactBox.set_size_request(28, 28)
+  compactBox.set_spacing(3)
   compactBox.set_halign(Gtk.Align.CENTER)
   compactBox.set_valign(Gtk.Align.CENTER)
   compactBox.append(noteDa)
@@ -199,7 +209,7 @@ export default function Media() {
   const popover = new Gtk.Popover()
   popover.set_has_arrow(false)
   popover.set_position(Gtk.PositionType.RIGHT)
-  popover.add_css_class("media-popover")
+  popover.add_css_class("media")
   popover.set_autohide(true)
 
   // ── AudioPlayer internals (from CC) ──────────────────────

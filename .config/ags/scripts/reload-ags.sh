@@ -7,7 +7,6 @@ export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}"
 
 source /proc/$(pgrep -u "$USER" Hyprland | head -1)/environ 2>/dev/null | tr '\0' '\n' | grep -E 'WAYLAND|XDG|DBUS|DISPLAY' | while IFS='=' read -r k v; do export "$k=$v"; done
-
 until [[ -f ~/.config/ags/colors.scss ]]; do sleep 0.5; done
 
 while read -r; do

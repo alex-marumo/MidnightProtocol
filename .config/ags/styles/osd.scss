@@ -6,35 +6,48 @@
 }
 
 .osd-pill {
-  background: $bg-base;
-  opacity: 0.91;
-  border: 1px solid rgba($accent, 0.18);
-  border-radius: 5px;
-  padding: 7px 16px;
+  background: rgba(0, 0, 0, 0.94);
+  border: 1px solid rgba($accent-primary, 0.2);
+  border-radius: 0;
+
+  padding: 8px 18px;
+
+  box-shadow:
+    0 0 35px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
+/* icon */
 .osd-icon {
   font-family: "Symbols Nerd Font Mono";
   font-size: 14px;
-  color: $text;
+  color: $accent-primary;
   min-width: 20px;
+
+  text-shadow: 0 0 6px rgba($accent-primary, 0.25);
 }
 
+/* track stays passive */
 .osd-bar-track {
-  background: rgba($text, 0.13);
-  border-radius: 999px;
-  min-height: 5px;
+  background: rgba($text-tertiary, 0.12);
+  border-radius: 0;
+  min-height: 3px;
 }
 
+/* fill = active signal */
 .osd-bar-fill {
-  background: $accent;
-  border-radius: 999px;
-  min-height: 5px;
+  background: $accent-primary;
+  border-radius: 0;
+  min-height: 3px;
+
+  box-shadow: 0 0 6px rgba($accent-primary, 0.25);
 }
 
+/* value stays neutral */
 .osd-pct {
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  font-size: 10px;
-  color: $text-dim;
-  font-weight: 400;
+  font-size: 9px;
+  color: $text-secondary;
+  font-weight: 600;
+  letter-spacing: 0.08em;
 }

@@ -1,61 +1,60 @@
 @use "../colors" as *;
-
 // ── Sidebar ───────────────────────────────────
 .sidebar-window {
   background: transparent;
 }
-
 .sidebar {
   background: transparent;
-  padding: 4px 2px;
+  padding: 3px 2px;
 }
-
+/* main container */
 .pill {
-  background-color: $bg-base;
-  opacity: 0.91;
-  border: 1px solid rgba($accent, 0.2);
-  border-radius: 5px;
-  padding: 6px 4px;
-  animation: pill-in 220ms ease;
+  background-color: rgba(0, 0, 0, 0.93);
+  border: 1px solid rgba($accent-primary, 0.2);
+  border-radius: 0;
+  padding: 4px 3px;
+  animation: none;
+  box-shadow:
+    0 0 35px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
-
 .pill-center {
   min-height: 0;
 }
-
+/* logo */
 .logo-btn {
-  background-color: rgba($accent, 0.08);
-  border: 1px solid rgba($accent, 0.25);
-  border-radius: 5px;
-  padding: 2px 7px;
-
+  background-color: rgba($accent-primary, 0.12);
+  border: 1px solid rgba($accent-primary, 0.35);
+  border-radius: 0;
+  padding: 2px 6px;
+  min-height: 0;
+  min-width: 0;
+  transition: all 120ms ease;
   &:hover {
-    background-color: rgba($accent, 0.16);
-    border-color: rgba($accent, 0.38);
+    background-color: rgba($accent-primary, 0.22);
+    border-color: rgba($accent-primary, 0.55);
   }
 }
-
 .logo {
   font-size: 14px;
-  color: $accent;
+  color: $accent-primary;
   font-family: "Symbols Nerd Font Mono", monospace;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  text-shadow: 0 0 6px rgba($accent-primary, 0.25);
 }
-
+/* battery */
 .battery-container {
   padding: 1px 0;
 }
-
 .battery-pct {
   font-size: 7px;
-  color: $text-dim;
+  color: $text-secondary;
   font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  font-weight: 400;
+  font-weight: 600;
+  letter-spacing: 0.05em;
 }
-
+/* separator */
 .separator-line {
-  background-color: rgba($text, 0.07);
+  background-color: rgba($text-tertiary, 0.12);
   min-height: 1px;
-  margin: 2px 4px;
+  margin: 3px 4px;
 }

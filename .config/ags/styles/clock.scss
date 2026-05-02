@@ -1,67 +1,71 @@
 @use "../colors" as *;
-
-// ── Clock ─────────────────────────────────────────
 .clock-box {
   padding: 0;
 }
-
+/* idle text */
 .clock {
   font-size: 14px;
-  font-weight: 500;
-  color: $text;
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  color: $text-primary;
+  font-family: $mono;
+  letter-spacing: 0.05em;
 }
-
+/* remove passive accent usage */
 .clock-seconds {
   font-size: 7px;
-  color: rgba($text, 0.25);
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  color: $text-tertiary;
+  font-family: $mono;
+  font-weight: 400;
 }
-
+/* Date */
 .date {
   font-size: 8px;
-  color: $text-dim;
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  letter-spacing: 1px;
+  color: $text-tertiary;
+  font-family: $mono;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
 }
-
-// Popover
+/* Popover */
 popover.clock-popover > contents {
-  background-color: $bg-base;
-  opacity: 0.95;
-  border: 1px solid rgba($accent, 0.2);
-  border-radius: 6px;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.96);
+  border: 1px solid rgba($accent-primary, 0.2);
+  border-radius: 0;
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  padding: 0;
 }
-
 .clock-pop-box {
-  padding: 14px 16px;
-  min-width: 200px;
+  padding: 20px 22px;
+  min-width: 220px;
+  border-bottom: 1px solid rgba($accent-primary, 0.1);
 }
-
+/* only primary time allowed to feel "active" */
 .clock-pop-time {
-  font-size: 18px;
-  font-weight: 500;
-  color: $text;
-  letter-spacing: 0.5px;
+  font-size: 20px;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: 0.1em;
+  font-family: $mono;
 }
-
 .clock-pop-label {
   font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.8px;
-  color: $text-faint;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: $text-tertiary;
+  text-transform: uppercase;
 }
-
+/* Progress */
 .clock-pop-track {
-  background: rgba($text, 0.09);
-  border-radius: 999px;
-  min-height: 3px;
+  background: rgba($text-tertiary, 0.12);
+  border-radius: 0;
+  min-height: 2px;
 }
-
+/* only fill gets accent */
 .clock-pop-fill {
-  background: $accent;
-  border-radius: 999px;
-  min-height: 3px;
+  background: $accent-primary;
+  border-radius: 0;
+  min-height: 2px;
+  box-shadow: 0 0 6px rgba($accent-primary, 0.25);
 }

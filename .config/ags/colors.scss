@@ -1,33 +1,31 @@
-$background: #141409;
-$foreground: #e6e3d1;
+$bg-base: rgba(0, 0, 0, 0.88);
+$bg-card: rgba(8, 8, 8, 0.92);
+$bg-deep: rgba(0, 0, 0, 0.96);
 
-$color0: #141409;
-$color1: #ffb4ab;
-$color2: #c8cb82;
-$color3: #b5cea4;
-$color4: #f5b0eb;
-$color5: #474a0e;
-$color6: #374c2d;
-$color7: #cbc7ad;
-$color8: #949279;
-$color9: #93000a;
-$color10: #c8cb82;
-$color11: #b5cea4;
-$color12: #683364;
-$color13: #e4e89b;
-$color14: #d0eabf;
-$color15: #e6e3d1;
+$border: rgba(255, 255, 255, 0.06);
 
-$bg-base: $background;
-$bg-card: #1d1c11;
-$bg-deep: #212015;
-$text: $foreground;
-$text-dim: $color7;
-$text-faint: $color8;
-$accent: #f5b0eb;
-$accent-subtle: rgba(245, 176, 235, 0.5);
+$text-primary: #dbe4e7;
+$text-secondary: rgba(185, 201, 207, 0.7);
+$text-tertiary: rgba(131, 147, 152, 0.5);
 
-$danger: #ffb4ab;
-$warn: #c8cb82;
-$dot: $color8;
+$surface: #182123;
+
+$accent-primary: #f0bf61;
+$accent-secondary: #c8c2ea;
+
+$accent-glow-weak: rgba(240, 191, 97, 0.25);
+$accent-glow: rgba(240, 191, 97, 0.55);
+$accent-glow-strong: rgba(240, 191, 97, 0.9);
+$accent-subtle: rgba(240, 191, 97, 0.12);
+
+$warn: #ffb300;
+$danger: #ff3b3b;
+
+$dot: rgba(255, 255, 255, 0.4);
+
 $mono: "JetBrainsMono Nerd Font", monospace;
+
+$accent: $accent-primary;
+$text: $text-primary;
+$text-dim: $text-secondary;
+$text-faint: $text-tertiary;

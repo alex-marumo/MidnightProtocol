@@ -13,88 +13,94 @@ interface HistoryEntry {
 const CACHE_PATH = GLib.get_user_cache_dir() + "/ags/launcher-history.json"
 let history: HistoryEntry[] = []
 
+// Load history immediately
 try {
   const file = Gio.File.new_for_path(CACHE_PATH)
-  const [success, contents] = file.load_contents(null)
-  if (success) {
+  if (file.query_exists(null)) {
+    const [, contents] = file.load_contents(null)
     history = JSON.parse(new TextDecoder().decode(contents))
   }
-} catch {
-  console.log("No existing history found.")
+} catch (e) {
+  console.log("No existing history found or file corrupted.")
+  history = []
 }
 
 function saveHistory() {
   try {
-    const contents = new TextEncoder().encode(JSON.stringify(history, null, 2))
     const file = Gio.File.new_for_path(CACHE_PATH)
     const dir = file.get_parent()
     if (dir && !dir.query_exists(null)) dir.make_directory_with_parents(null)
-    file.replace_contents_async(contents, null, false, 0, null, null)
+
+    // Use synchronous replace_contents to prevent data loss on launcher close
+    const jsonString = JSON.stringify(history, null, 2)
+    file.replace_contents(
+      jsonString,
+      null,
+      false,
+      Gio.FileCreateFlags.REPLACE_DESTINATION,
+      null,
+    )
   } catch (e) {
     console.error("Failed to save history:", e)
   }
 }
 
-function isDeadEntry(h: HistoryEntry): boolean {
-  // check executable field first, then subtitle if it looks like a path
-  const cmd = h.executable || (h.subtitle?.startsWith("/") ? h.subtitle : null)
-  if (!cmd) return false
-  const bin = cmd.split(" ")[0]
-  return !GLib.file_test(bin, GLib.FileTest.IS_EXECUTABLE)
-}
-
-export function recordHistory(item: ProviderResult & { executable?: string }) {
+export function recordHistory(
+  item: ProviderResult & { executable?: string; iconName?: string },
+) {
   const existing = history.find(
     (h) => h.title === item.title && h.subtitle === item.subtitle,
   )
 
   if (existing) {
     existing.score += 1
+    // Update fields if they were missing
     if (item.executable) existing.executable = item.executable
+    if (item.iconName || item.icon) existing.icon = item.iconName || item.icon
   } else {
     history.unshift({
       title: item.title,
-      subtitle: item.subtitle,
-      icon: item.icon,
-      executable: item.executable,
+      subtitle: item.subtitle || "",
+      // Fallback to a generic icon if nothing is found
+      icon: item.iconName || item.icon || "application-x-executable",
+      executable: item.executable || "",
       score: 1,
     })
   }
 
   history.sort((a, b) => b.score - a.score)
   if (history.length > 30) history.pop()
+
   saveHistory()
 }
 
 export default function historyProvider(query: string): ProviderResult[] {
   const q = query.toLowerCase()
-
-  const live = history.filter((h) => !isDeadEntry(h))
-
-  const results = query
-    ? live.filter(
+  const filtered = query
+    ? history.filter(
         (h) =>
           h.title.toLowerCase().includes(q) ||
           h.subtitle?.toLowerCase().includes(q),
       )
-    : live
+    : history
 
-  return results.slice(0, 8).map((h) => ({
+  return filtered.slice(0, 8).map((h) => ({
     title: h.title,
     subtitle: h.subtitle,
-    icon: h.icon,
+    // Use iconName here to ensure the launcher's widget finds the icon
+    iconName: h.icon,
     score: h.score,
     action: () => {
-      if (h.executable) {
-        // run the stored app command directly
-        GLib.spawn_command_line_async(h.executable)
-      } else if (h.subtitle?.startsWith("http")) {
-        GLib.spawn_command_line_async(`xdg-open ${h.subtitle}`)
-      } else if (h.subtitle?.startsWith("/")) {
-        // actual file, not a binary
-        GLib.spawn_command_line_async(`xdg-open "${h.subtitle}"`)
+      // Re-record to bump score
+      recordHistory({ ...h, iconName: h.icon } as any)
+
+      const cmd = h.executable || h.subtitle || h.title.toLowerCase()
+      if (cmd.startsWith("http")) {
+        GLib.spawn_command_line_async(`xdg-open ${cmd}`)
+      } else if (cmd.startsWith("/")) {
+        GLib.spawn_command_line_async(`xdg-open "${cmd}"`)
       } else {
-        GLib.spawn_command_line_async(h.title.toLowerCase())
+        GLib.spawn_command_line_async(cmd)
       }
     },
   }))

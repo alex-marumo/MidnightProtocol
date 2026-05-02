@@ -1,188 +1,180 @@
-@use "colors" as *;
+@use "../colors" as *;
 
+/* popover */
 popover.ai-popover > contents {
   background: $bg-deep;
-  border: 1px solid rgba($accent, 0.22);
-  border-radius: 7px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba($accent-primary, 0.25);
+  border-radius: 0;
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
   padding: 0;
   margin-left: 12px;
 }
 
+/* card */
 .ai-card {
-  border-radius: 7px;
-  font-family: "IosevkaTerm NF", monospace;
+  border-radius: 0;
+  font-family: $mono;
 }
 
 .ai-header {
-  padding: 8px 12px;
+  padding: 16px 20px;
   background: rgba($bg-card, 0.5);
 }
 
 .ai-status-dot {
-  color: $accent;
-  font-size: 7px;
+  color: $accent-primary;
+  font-size: 5px;
 }
 
 .ai-title {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
-  color: $text;
+  color: $text-primary;
+  font-family: $mono;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .ai-model-tag {
-  font-size: 10px;
-  color: rgba($accent, 0.55);
-  letter-spacing: 0.06em;
+  font-size: 8px;
+  color: $text-tertiary;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .ai-icon-btn {
   background: transparent;
   border: none;
-  border-radius: 4px;
+  border-radius: 0;
   padding: 2px 6px;
-  color: $text-dim;
+  color: $text-tertiary;
   font-size: 25px;
-  min-width: 0;
-  min-height: 0;
 
   &:hover {
-    background: rgba($text, 0.08);
-    color: $text;
+    background: rgba($text-primary, 0.09);
+    color: $text-primary;
   }
 }
 
 .ai-sep {
-  background: rgba($accent, 0.1);
+  background: rgba($text-tertiary, 0.12);
   min-height: 1px;
 }
 
-.ai-scroll {
-  background: transparent;
-}
-
 .ai-message-list {
-  padding: 10px 10px 6px 10px;
+  padding: 10px;
 }
 
 .ai-greeting {
-  padding: 6px 4px 10px 4px;
-  border-bottom: 1px solid rgba($accent, 0.08);
-  margin-bottom: 6px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba($text-tertiary, 0.12);
+  margin-bottom: 8px;
 }
 
 .ai-greeting-moon {
   font-size: 16px;
-  color: rgba($accent, 0.7);
+  color: rgba($accent-primary, 0.25);
 }
 
 .ai-greeting-text {
-  font-size: 11px;
-  font-style: italic;
-  color: rgba($text, 0.35);
-  letter-spacing: 0.04em;
+  font-size: 8px;
+  color: rgba($text-primary, 0.25);
+  font-family: $mono;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
 }
 
 .ai-line {
-  padding: 1px 4px;
+  padding: 2px 4px;
 
   &:hover {
-    background: rgba($text, 0.03);
-    border-radius: 3px;
+    background: rgba($text-primary, 0.03);
   }
 }
 
 .ai-ts {
-  font-size: 10px;
-  color: rgba($text, 0.22);
-  letter-spacing: 0.02em;
+  font-size: 8px;
+  color: rgba($text-primary, 0.25);
+  font-family: $mono;
 }
 
 .ai-handle {
-  font-size: 11px;
+  font-size: 8px;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  min-width: 20px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: $mono;
 
   &--user {
-    color: $accent;
+    color: $accent-primary;
   }
 
   &--assistant {
-    color: rgba($text, 0.45);
-  }
-}
-
-.ai-chevron {
-  font-size: 9px;
-
-  &--user {
-    color: rgba($accent, 0.5);
-  }
-
-  &--assistant {
-    color: rgba($text, 0.2);
+    color: $text-tertiary;
   }
 }
 
 .ai-body {
   font-size: 12px;
   line-height: 1.5;
+  font-family: $mono;
 
   &--user {
-    color: $text;
+    color: $text-primary;
   }
 
   &--assistant {
-    color: $text-dim;
+    color: $text-secondary;
   }
 }
 
 .ai-input-row {
-  padding: 8px 10px;
+  padding: 16px 20px;
   background: rgba($bg-card, 0.25);
 }
 
 .ai-prompt {
   font-size: 12px;
-  color: $accent;
+  color: $accent-primary;
   font-weight: 700;
+  font-family: $mono;
 }
 
 .ai-input-row scrolledwindow {
   background: transparent;
-  border: 1px solid rgba($text, 0.1);
-  border-radius: 4px;
+  border: 1px solid rgba($text-tertiary, 0.12);
+  border-radius: 0;
 
   &:focus-within {
-    border-color: rgba($accent, 0.38);
+    border-color: rgba($accent-primary, 0.25);
   }
 }
 
 .ai-input {
   background: transparent;
-  color: $text;
-  font-family: "IosevkaTerm NF", monospace;
+  color: $text-primary;
+  font-family: $mono;
   font-size: 12px;
   padding: 4px 8px;
-  caret-color: $accent;
+  caret-color: $accent-primary;
 }
 
 .ai-send-btn {
-  background: rgba($accent, 0.12);
-  border: 1px solid rgba($accent, 0.25);
-  border-radius: 4px;
+  background: rgba($text-primary, 0.09);
+  border: 1px solid rgba($text-tertiary, 0.12);
+  border-radius: 0;
   padding: 4px 8px;
-  min-width: 0;
-  min-height: 0;
 
   &:hover {
-    background: rgba($accent, 0.24);
+    background: rgba($accent-primary, 0.14);
+    color: $accent-primary;
   }
 }
 
 .ai-send-icon {
-  color: $accent;
+  color: $accent-primary;
   font-size: 25px;
 }

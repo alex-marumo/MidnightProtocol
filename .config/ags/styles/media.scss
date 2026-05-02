@@ -1,51 +1,67 @@
 @use "../colors" as *;
-
 // ── Media ─────────────────────────────────────────
-popover.media-popover {
+popover.media {
   background: transparent;
-  border: none;
   padding: 0;
-}
 
-popover.media-popover > contents {
-  background-color: $bg-deep;
-  border: 1px solid rgba($accent, 0.22);
-  border-radius: 6px;
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.58);
-}
+  & > contents {
+    background-color: rgba(0, 0, 0, 0.96);
+    border: 1px solid rgba($accent-primary, 0.25);
+    border-radius: 0;
+    box-shadow:
+      0 0 50px rgba(0, 0, 0, 0.9),
+      inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    padding: 0;
+    margin: 0;
 
-.media-art {
-  border-radius: 5px;
-  border: 1px solid rgba($text, 0.09);
-}
-
-.media-title {
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  font-size: 9.5px;
-  font-weight: 500;
-  color: $text;
-}
-
-.media-artist {
-  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
-  font-size: 8px;
-  color: $text-faint;
-  font-weight: 400;
-}
-
-.media-play-btn {
-  background-color: rgba($accent, 0.13);
-  border: 1px solid rgba($accent, 0.26);
-  border-radius: 5px;
-  padding: 5px;
-  &:hover {
-    background-color: rgba($accent, 0.24);
+    & > arrow {
+      background: transparent;
+      border: none;
+    }
   }
 }
 
-.media-ctrl-btn {
-  border-radius: 5px;
+/* artwork */
+.media-art {
+  border-radius: 0;
+  border: 1px solid rgba($text-tertiary, 0.12);
+}
+.media-title {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  color: $text-primary;
+  letter-spacing: 0.04em;
+}
+.media-artist {
+  font-family: "IosevkaTerm NF", "JetBrainsMono Nerd Font", monospace;
+  font-size: 8px;
+  color: $text-tertiary;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+/* primary action */
+.media-play-btn {
+  background-color: rgba($accent-primary, 0.12);
+  border: 1px solid rgba($accent-primary, 0.4);
+  border-radius: 0;
+  padding: 6px;
+  transition: all 120ms ease;
   &:hover {
-    background-color: rgba($bg-card, 0.45);
+    background-color: rgba($accent-primary, 0.22);
+    border-color: rgba($accent-primary, 0.6);
+  }
+}
+.media-ctrl-btn {
+  background: transparent;
+  border: 1px solid rgba($text-tertiary, 0.12);
+  border-radius: 0;
+  padding: 5px;
+  color: $text-secondary;
+  transition: all 120ms ease;
+  &:hover {
+    background-color: rgba($accent-primary, 0.06);
+    border-color: rgba($accent-primary, 0.25);
+    color: $text-primary;
   }
 }
