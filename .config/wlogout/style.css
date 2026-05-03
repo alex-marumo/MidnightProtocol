@@ -10,11 +10,11 @@ window {
 
 button {
   background-color: rgba(8, 8, 8, 0.92);  /* matches AGS $bg-card */
-  color: rgba(219, 228, 231, 0.5);
+  color: rgba(242, 223, 209, 0.5);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
-  border: 1px solid rgba(240, 191, 97, 0.25);
+  border: 1px solid rgba(195, 192, 255, 0.25);
   border-radius: 0;
   margin: 6px;
   padding: 0;
@@ -29,12 +29,12 @@ button {
 button:hover,
 button:focus {
   outline: none;
-  background-color: rgba(240, 191, 97, 0.15);
-  border-color: rgba(240, 191, 97, 0.55);
-  color: #f0bf61;
+  background-color: rgba(195, 192, 255, 0.15);
+  border-color: rgba(195, 192, 255, 0.55);
+  color: #c3c0ff;
   box-shadow: 
-    0 0 12px rgba(240, 191, 97, 0.3),
-    inset 0 0 8px rgba(240, 191, 97, 0.1);
+    0 0 12px rgba(195, 192, 255, 0.3),
+    inset 0 0 8px rgba(195, 192, 255, 0.1);
 }
 
 #lock {
