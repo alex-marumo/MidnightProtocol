@@ -359,7 +359,7 @@ export default function Controls() {
       lock.add_css_class("ctrl-net-lock")
 
       const connBtn = new Gtk.Button({ label: n.active ? "✓" : "→" })
-      connBtn.add_css_class(n.active ? "ctrl-net-btn-active" : "ctrl-net-btn")
+      connBtn.add_css_class(n.active ? "ctrl-net-btn" : "ctrl-net-btn")
 
       connBtn.connect("clicked", () => {
         if (n.active) {

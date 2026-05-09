@@ -2,6 +2,7 @@ import { Gtk } from "ags/gtk4"
 import { createState } from "ags"
 import GLib from "gi://GLib"
 import GdkPixbuf from "gi://GdkPixbuf"
+import PersistentApps, { activeAppCount } from "./PersistentApps"
 
 GLib.log_set_handler(
   null,
@@ -22,25 +23,6 @@ const BR = 0.537,
   BB = 0.98
 
 // ── Cairo ─────────────────────────────────────────────────────
-function drawNote(cr: any, cx: number, cy: number) {
-  cr.setSourceRGBA(PR, PG, PB, 0.6)
-  cr.setLineWidth(1.4)
-  cr.setLineCap(1)
-  cr.save()
-  cr.translate(cx - 2.5, cy + 2.5)
-  cr.scale(2.2, 1.6)
-  cr.arc(0, 0, 1, 0, 2 * Math.PI)
-  cr.restore()
-  cr.fill()
-  cr.setSourceRGBA(PR, PG, PB, 0.6)
-  cr.moveTo(cx - 0.4, cy + 2.5)
-  cr.lineTo(cx - 0.4, cy - 5)
-  cr.stroke()
-  cr.moveTo(cx - 0.4, cy - 5)
-  cr.curveTo(cx + 5, cy - 3.5, cx + 5, cy - 0.5, cx + 1.5, cy + 0.5)
-  cr.stroke()
-}
-
 function drawPlay(cr: any, cx: number, cy: number) {
   cr.setSourceRGBA(PR, PG, PB, 0.95)
   cr.newPath()
@@ -112,12 +94,14 @@ function cairoBtn(
 // ── Bars ──────────────────────────────────────────────────────
 function makeBar(phase0: number) {
   const da = new Gtk.DrawingArea()
-  da.set_size_request(4, 20)
+  da.set_size_request(3, 10)
 
   da.set_valign(Gtk.Align.CENTER)
   da.set_halign(Gtk.Align.CENTER)
-  let phase = phase0,
-    active = false
+
+  let phase = phase0
+  let active = false
+
   const start = () => {
     if (active) return
     active = true
@@ -128,16 +112,24 @@ function makeBar(phase0: number) {
       return GLib.SOURCE_CONTINUE
     })
   }
+
   const stop = () => {
     active = false
     da.queue_draw()
   }
+
   da.set_draw_func((_w, cr) => {
-    const h = active ? 4 + Math.abs(Math.sin(phase)) * 14 : 2
-    cr.setSourceRGBA(PR, PG, PB, 0.8)
-    cr.rectangle(0, (20 - h) / 2, 4, h)
+    const maxHeight = 18
+    let h = active ? 6 + Math.abs(Math.sin(phase)) * maxHeight : 4
+
+    // Perfect centering
+    const y = Math.floor((20 - h) / 2)
+
+    cr.setSourceRGBA(PR, PG, PB, active ? 0.95 : 0.75)
+    cr.rectangle(0, y, 4, h)
     cr.fill()
   })
+
   return { da, start, stop }
 }
 
@@ -145,14 +137,17 @@ function makeBar(phase0: number) {
 
 // ── Main ──────────────────────────────────────────────────────
 export default function Media() {
+  const mediaVisible = () => hasPlayer.get()
+
   const BAR_WIDTH = 4
-  const BAR_SPACING = 3
+  const BAR_SPACING = 2
   const TOTAL_WIDTH = 28
 
   const barCount = Math.floor(TOTAL_WIDTH / (BAR_WIDTH + BAR_SPACING))
 
   const [isPlaying, setIsPlaying] = createState(false)
   const [hasPlayer, setHasPlayer] = createState(false)
+
   // ── compact icon — 3 states: idle | paused | playing ─────
   let currentPlayer: any = null
   let playing = false
@@ -161,58 +156,45 @@ export default function Media() {
   type CompactState = "idle" | "paused" | "playing"
   let compactState: CompactState = "idle"
 
+  const compactBox = new Gtk.Box({
+    orientation: Gtk.Orientation.HORIZONTAL,
+    spacing: 3,
+    halign: Gtk.Align.CENTER,
+    valign: Gtk.Align.CENTER,
+  })
+
+  compactBox.set_size_request(-1, -1)
   const bars = Array.from({ length: barCount }, (_, i) => makeBar(i * 0.2))
 
-  // note — idle state
-  const noteDa = new Gtk.DrawingArea()
-  noteDa.set_size_request(28, 28)
-  noteDa.set_draw_func((_w, cr) => drawNote(cr, 17, 17))
-
-  const compactBox = new Gtk.Box()
-  compactBox.set_size_request(28, 28)
-  compactBox.set_spacing(3)
-  compactBox.set_halign(Gtk.Align.CENTER)
-  compactBox.set_valign(Gtk.Align.CENTER)
-  compactBox.append(noteDa)
   bars.forEach((b) => compactBox.append(b.da))
 
   const syncCompact = (state: CompactState) => {
     compactState = state
     playing = state === "playing"
+
     if (state === "idle") {
-      // no player — note only
-      noteDa.set_visible(true)
-      bars.forEach((b) => {
-        b.stop()
-        b.da.set_visible(false)
-      })
-    } else if (state === "paused") {
-      // player exists but paused — static dim bars
-      noteDa.set_visible(false)
       bars.forEach((b) => {
         b.stop()
         b.da.set_visible(true)
       })
     } else {
-      // playing — animated bars
-      noteDa.set_visible(false)
       bars.forEach((b) => {
         b.da.set_visible(true)
-        b.start()
+        if (state === "playing") b.start()
+        else b.stop()
       })
     }
   }
-
   syncCompact("idle")
 
-  // ── popup card — AudioPlayer logic from CC, verbatim ───────
+  // ── popup card ───────
   const popover = new Gtk.Popover()
   popover.set_has_arrow(false)
   popover.set_position(Gtk.PositionType.RIGHT)
-  popover.add_css_class("media")
+  popover.add_css_class("media-popover")
   popover.set_autohide(true)
 
-  // ── AudioPlayer internals (from CC) ──────────────────────
+  // ── AudioPlayer internals ──────────────────────
   const container = new Gtk.Box({
     orientation: Gtk.Orientation.VERTICAL,
     css_classes: ["cc-audio-container"],
@@ -369,7 +351,10 @@ export default function Media() {
   const update = () => {
     clearContainer()
     const players: any[] = (Mpris as any)?.players ?? []
-    if (!players.length) {
+    const exists = players.length > 0
+    setHasPlayer(exists)
+
+    if (!exists) {
       currentPlayer = null
       setHasPlayer(false)
       setIsPlaying(false)
@@ -401,10 +386,34 @@ export default function Media() {
   popover.set_child(container)
 
   // ── root ──────────────────────────────────────────────────
-  const root = new Gtk.Box()
-  root.set_halign(Gtk.Align.CENTER)
-  root.set_valign(Gtk.Align.CENTER)
+  const apps = PersistentApps()
+
+  const root = new Gtk.Box({
+    orientation: Gtk.Orientation.VERTICAL,
+    spacing: 0,
+    valign: Gtk.Align.CENTER,
+  })
+
+  root.append(apps)
   root.append(compactBox)
+  root.add_css_class("media-root")
+
+  const updateVisibility = () => {
+    const shouldShowMedia = hasPlayer.get()
+  }
+  hasPlayer.subscribe(updateVisibility)
+
+  const syncIslandVisibility = () => {
+    const appsActive = activeAppCount.get() > 0
+    const mediaActive = hasPlayer.get()
+
+    root.set_visible(appsActive || mediaActive)
+
+    compactBox.set_margin_top(appsActive && mediaActive ? 8 : 0)
+  }
+
+  activeAppCount.subscribe(syncIslandVisibility)
+  hasPlayer.subscribe(syncIslandVisibility)
 
   root.connect("realize", () => {
     popover.set_parent(root)
@@ -420,7 +429,7 @@ export default function Media() {
     if (popover.get_visible()) popover.popdown()
     else popover.popup()
   })
-  root.add_controller(click)
+  compactBox.add_controller(click)
 
   return root
 }

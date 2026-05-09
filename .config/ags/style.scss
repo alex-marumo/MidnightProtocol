@@ -16,3 +16,14 @@
 @use "styles/cc";
 @use "styles/launcher";
 @use "styles/ai";
+
+* {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.window {
+  transition-duration: 150ms;
+}
+.osd {
+  transition-duration: 100ms;
+}
