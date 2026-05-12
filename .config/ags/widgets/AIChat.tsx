@@ -5,88 +5,138 @@ import GLib from "gi://GLib"
 interface Message {
   role: "user" | "assistant"
   content: string
-  time: string // "HH:MM"
+  time: string
 }
 
 const GREETINGS: Record<string, string[]> = {
   dawn: [
-    // 05:00–08:59
     "the sun rises, yet the night's questions linger.",
-    "even dawn breaks slowly in the north. what stirs you?",
-    "a new day. the ravens are fed. speak.",
+    "even dawn breaks slowly. what stirs you?",
   ],
   morning: [
-    // 09:00–11:59
     "the small council meets at this hour. what do you bring?",
-    "the ravens fly early. yours has arrived.",
-    "morning, and the realm still stands. what do you need?",
+    "the ravens fly early.",
   ],
   afternoon: [
-    // 12:00–16:59
     "the sun is high — even kings must answer questions.",
-    "midday. the maesters are awake. so am i.",
-    "the great game never sleeps, even at this hour.",
+    "midday. the maesters are awake.",
   ],
   evening: [
-    // 17:00–20:59
     "the candles are lit. the ravens are restless. speak.",
-    "evening falls on the realm. what troubles you?",
-    "as the sun sets, the questions grow darker. ask.",
+    "evening falls. what troubles you?",
   ],
   night: [
-    // 21:00–23:59 + 00:00–04:59
     "the night is dark and full of queries.",
-    "what is dead may never die — ask anyway.",
-    "the lone wolf dies, but the pack stays up late.",
-    "chaos isn't a pit. it's a ladder. need a boost?",
+    "chaos isn't a pit. it's a ladder.",
   ],
 }
 
 function getGreeting(): string {
   const h = new Date().getHours()
-  let bucket: string
+  let bucket = "night"
   if (h >= 5 && h < 9) bucket = "dawn"
   else if (h >= 9 && h < 12) bucket = "morning"
   else if (h >= 12 && h < 17) bucket = "afternoon"
   else if (h >= 17 && h < 21) bucket = "evening"
-  else bucket = "night"
 
   const pool = GREETINGS[bucket]
   return pool[Math.floor(Math.random() * pool.length)]
 }
 
-const conversationHistory: Message[] = []
+// ==================== CONFIG ====================
+const AXL_PATH = "/home/alexm/Prjcts/A.X.L/target/release/axl"
+const CONFIG_PATH = `${GLib.get_user_config_dir()}/aichat/config.yaml`
 
-function now(): string {
-  const d = new Date()
-  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`
+let currentMode: "cloud" | "local" = "cloud"
+let currentModel = "openrouter:openai/gpt-oss-120b"
+
+async function loadModelFromConfig() {
+  try {
+    const model = await execAsync([
+      "sh",
+      "-c",
+      `yq '.model // "openrouter:openai/gpt-oss-120b"' ${CONFIG_PATH} 2>/dev/null || echo "openrouter:openai/gpt-oss-120b"`,
+    ])
+    currentModel = model.trim()
+  } catch (_) {}
 }
 
+function getDisplayModel(): string {
+  const name = currentModel.split(/[:/]/).pop() || currentModel
+  return currentMode === "local" ? `LOCAL · ${name}` : `CLOUD · ${name}`
+}
+
+async function sendToAichat(text: string): Promise<string> {
+  try {
+    const args = [AXL_PATH, "--no-stream"]
+
+    if (currentMode === "local") {
+      args.push("--model", currentModel)
+    }
+
+    let output = await execAsync([...args, text])
+
+    // Aggressive cleaning
+    output = output
+      .replace(/<think>[\s\S]*?<\/think>/gi, "")
+      .replace(/^\s*thinking.*$/gim, "")
+      .replace(/<\|.*?\|>/g, "") // remove any special tokens
+      .trim()
+
+    return output || "received no response."
+  } catch (err: any) {
+    console.error(err)
+    return "transmission failed."
+  }
+}
+
+async function killSession() {
+  try {
+    await execAsync(["pkill", "-f", "axl"])
+  } catch (_) {}
+}
+
+// ==================== UI ====================
 export default function AIChat() {
+  const conversationHistory: Message[] = []
+
   const popover = new Gtk.Popover()
   popover.set_has_arrow(false)
   popover.set_position(Gtk.PositionType.RIGHT)
-  popover.add_css_class("ai-popover")
   popover.set_autohide(true)
+  popover.add_css_class("ai-popover")
+  popover.set_size_request(460, 650)
 
+  // Tabs
+  const tabBox = new Gtk.Box({ spacing: 0, cssClasses: ["ai-tabs"] })
+  const cloudTab = new Gtk.Button({
+    label: "☁ CLOUD",
+    cssClasses: ["ai-tab", "ai-tab-active"],
+  })
+  const localTab = new Gtk.Button({ label: "󰣇 LOCAL", cssClasses: ["ai-tab"] })
+
+  tabBox.append(cloudTab)
+  tabBox.append(localTab)
+
+  // Header
   const statusDot = new Gtk.Label({ label: "●", cssClasses: ["ai-status-dot"] })
   const titleLbl = new Gtk.Label({ label: "A.X.L", cssClasses: ["ai-title"] })
-  const modelLbl = new Gtk.Label({
-    label: "claude · midnight",
-    cssClasses: ["ai-model-tag"],
-  })
+  const modelLbl = new Gtk.Label({ label: "", cssClasses: ["ai-model-tag"] })
   modelLbl.set_hexpand(true)
   modelLbl.set_halign(Gtk.Align.START)
 
   const clearBtn = new Gtk.Button({
     label: "⌫",
     cssClasses: ["ai-icon-btn"],
-    tooltip_text: "clear chat",
+    tooltip_text: "Clear Chat",
   })
-  const closeBtn = new Gtk.Button({ label: "✕", cssClasses: ["ai-icon-btn"] })
-  closeBtn.connect("clicked", () => popover.popdown())
+  const closeBtn = new Gtk.Button({
+    label: "✕",
+    cssClasses: ["ai-icon-btn"],
+    tooltip_text: "End Session",
+  })
 
-  const headerLeft = new Gtk.Box({ spacing: 6, valign: Gtk.Align.CENTER })
+  const headerLeft = new Gtk.Box({ spacing: 6 })
   headerLeft.append(statusDot)
   headerLeft.append(titleLbl)
   headerLeft.append(modelLbl)
@@ -107,42 +157,39 @@ export default function AIChat() {
 
   const scroll = new Gtk.ScrolledWindow({ vexpand: true })
   scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-  scroll.set_size_request(360, 420)
-  scroll.add_css_class("ai-scroll")
+  scroll.set_size_request(430, 430)
   scroll.set_child(messageList)
 
-  const prompt = new Gtk.Label({ label: "❯", cssClasses: ["ai-prompt"] })
-  prompt.set_valign(Gtk.Align.CENTER)
-
-  const input = new Gtk.TextView()
-  input.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
-  input.set_accepts_tab(false)
-  input.set_hexpand(true)
+  const input = new Gtk.TextView({
+    wrap_mode: Gtk.WrapMode.WORD_CHAR,
+    accepts_tab: false,
+    hexpand: true,
+  })
   input.add_css_class("ai-input")
-  input.set_size_request(-1, 36)
+  input.set_size_request(-1, 44)
 
   const inputWrap = new Gtk.ScrolledWindow()
   inputWrap.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-  inputWrap.set_size_request(-1, 36)
+  inputWrap.set_size_request(-1, 44)
   inputWrap.set_child(input)
 
   const sendBtn = new Gtk.Button({
     cssClasses: ["ai-send-btn"],
-    tooltip_text: "send (Enter)",
+    tooltip_text: "Send (Enter)",
   })
-  sendBtn.set_valign(Gtk.Align.CENTER)
-  sendBtn.set_child(new Gtk.Label({ label: "⏎", cssClasses: ["ai-send-icon"] }))
+  sendBtn.set_child(new Gtk.Label({ label: "⏎" }))
 
   const inputRow = new Gtk.Box({ spacing: 6, cssClasses: ["ai-input-row"] })
-  inputRow.append(prompt)
+  inputRow.append(new Gtk.Label({ label: "❯", cssClasses: ["ai-prompt"] }))
   inputRow.append(inputWrap)
   inputRow.append(sendBtn)
 
   const card = new Gtk.Box({
     orientation: Gtk.Orientation.VERTICAL,
-    spacing: 0,
     cssClasses: ["ai-card"],
   })
+  card.set_size_request(460, 650)
+  card.append(tabBox)
   card.append(header)
   card.append(
     new Gtk.Separator({
@@ -161,6 +208,28 @@ export default function AIChat() {
 
   popover.set_child(card)
 
+  // Tab Logic
+  function updateTabs() {
+    if (currentMode === "cloud") {
+      cloudTab.add_css_class("ai-tab-active")
+      localTab.remove_css_class("ai-tab-active")
+    } else {
+      localTab.add_css_class("ai-tab-active")
+      cloudTab.remove_css_class("ai-tab-active")
+    }
+    modelLbl.label = getDisplayModel()
+  }
+
+  cloudTab.connect("clicked", () => {
+    currentMode = "cloud"
+    updateTabs()
+  })
+  localTab.connect("clicked", () => {
+    currentMode = "local"
+    updateTabs()
+  })
+
+  // Helpers
   function scrollToBottom() {
     GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
       const adj = scroll.get_vadjustment()
@@ -170,168 +239,101 @@ export default function AIChat() {
   }
 
   function renderMessage(msg: Message) {
-    const handle = msg.role === "user" ? "abyss.w4lk3r" : " a.x.l"
-
-    const timeLbl = new Gtk.Label({
-      label: `[${msg.time}]`,
-      cssClasses: ["ai-ts"],
-      valign: Gtk.Align.START,
-    })
-
-    const handleLbl = new Gtk.Label({
-      label: handle,
-      cssClasses: ["ai-handle", `ai-handle--${msg.role}`],
-      valign: Gtk.Align.START,
-    })
-
-    const chevron = new Gtk.Label({
-      label: "❯",
-      cssClasses: ["ai-chevron", `ai-chevron--${msg.role}`],
-      valign: Gtk.Align.START,
-    })
-
-    const body = new Gtk.Label({
-      label: msg.content,
-      wrap: true,
-      xalign: 0,
-      selectable: true,
-      hexpand: true,
-      cssClasses: ["ai-body", `ai-body--${msg.role}`],
-      valign: Gtk.Align.START,
-    })
-
     const row = new Gtk.Box({ spacing: 6, cssClasses: ["ai-line"] })
-    row.append(timeLbl)
-    row.append(handleLbl)
-    row.append(chevron)
-    row.append(body)
+    row.append(new Gtk.Label({ label: `[${msg.time}]`, cssClasses: ["ai-ts"] }))
+    row.append(
+      new Gtk.Label({
+        label: msg.role === "user" ? "ABYSS" : "A.X.L",
+        cssClasses: ["ai-handle", `ai-handle--${msg.role}`],
+      }),
+    )
+    row.append(new Gtk.Label({ label: "❯", cssClasses: ["ai-chevron"] }))
+
+    row.append(
+      new Gtk.Label({
+        label: msg.content,
+        wrap: true,
+        xalign: 0,
+        selectable: true,
+        hexpand: true,
+        cssClasses: ["ai-body", `ai-body--${msg.role}`],
+      }),
+    )
 
     messageList.append(row)
     scrollToBottom()
   }
 
-  function renderGreeting() {
-    const greeting = getGreeting()
-
-    const moonLbl = new Gtk.Label({
-      label: "🌘",
-      cssClasses: ["ai-greeting-moon"],
-    })
-    const textLbl = new Gtk.Label({
-      label: greeting,
-      wrap: true,
-      xalign: 0,
-      hexpand: true,
-      cssClasses: ["ai-greeting-text"],
-    })
-
-    const row = new Gtk.Box({ spacing: 8, cssClasses: ["ai-greeting"] })
-    row.append(moonLbl)
-    row.append(textLbl)
-    messageList.append(row)
-  }
-
-  clearBtn.connect("clicked", () => {
-    conversationHistory.length = 0
+  function clearMessageList() {
     let child = messageList.get_first_child()
     while (child) {
       const next = child.get_next_sibling()
       messageList.remove(child)
       child = next
     }
+  }
+
+  function renderGreeting() {
+    const row = new Gtk.Box({ spacing: 8, cssClasses: ["ai-greeting"] })
+    row.append(new Gtk.Label({ label: "🌑", cssClasses: ["ai-greeting-moon"] }))
+    row.append(
+      new Gtk.Label({
+        label: getGreeting(),
+        wrap: true,
+        cssClasses: ["ai-greeting-text"],
+      }),
+    )
+    messageList.append(row)
+  }
+
+  // Actions
+  clearBtn.connect("clicked", () => {
+    conversationHistory.length = 0
+    clearMessageList()
     renderGreeting()
   })
 
-  async function sendToProxy(messages: Message[]): Promise<string> {
-    const tmpFile = `/tmp/aichat-${Date.now()}.json`
+  closeBtn.connect("clicked", async () => {
+    await killSession().catch(console.error)
+    popover.popdown()
+  })
 
-    const payload = JSON.stringify({
-      model: "claude-sonnet-20240229",
-      max_tokens: 2048,
-      messages: messages.map((m) => ({ role: m.role, content: m.content })),
-    })
-
-    // Use python to write — avoids all shell quote escaping issues
-    await execAsync([
-      "python3",
-      "-c",
-      `import json; open('${tmpFile}', 'w').write('${payload.replace(/'/g, "\\'")}')`,
-    ])
-
-    const result = await execAsync([
-      "bash",
-      "-c",
-      `curl -s -X POST http://localhost:8082/v1/messages \
-      -H "Content-Type: application/json" \
-      -H "x-api-key: A.X.L" \
-      -d @${tmpFile} \
-    | grep 'content_block_delta' \
-    | grep '^data:' \
-    | sed 's/^data: //' \
-    | jq -r '.delta.text' \
-    | tr -d '\\n'; rm -f ${tmpFile}`,
-    ])
-
-    return result.trim() || "the ravens brought back nothing."
-  }
-
-  function getInputText(): string {
+  async function handleSend() {
     const buf = input.get_buffer()
-    return buf.get_text(buf.get_start_iter(), buf.get_end_iter(), false).trim()
-  }
-
-  function clearInput() {
-    input.get_buffer().set_text("", 0)
-  }
-
-  function handleSend() {
-    const text = getInputText()
+    const text = buf
+      .get_text(buf.get_start_iter(), buf.get_end_iter(), false)
+      .trim()
     if (!text) return
-    clearInput()
 
-    const userMsg: Message = {
-      role: "user",
-      content: text,
-      time: now(),
-    }
+    buf.set_text("", 0)
+
+    const userMsg: Message = { role: "user", content: text, time: now() }
     conversationHistory.push(userMsg)
     renderMessage(userMsg)
 
-    const thinkingMsg: Message = {
+    const thinking = { role: "assistant", content: "……", time: now() }
+    renderMessage(thinking)
+
+    const reply = await sendToAichat(text)
+
+    const last = messageList.get_last_child()
+    if (last) messageList.remove(last)
+
+    const assistantMsg: Message = {
       role: "assistant",
-      content: "...",
+      content: reply,
       time: now(),
     }
-    renderMessage(thinkingMsg)
-
-    sendToProxy(conversationHistory)
-      .then((reply) => {
-        const last = messageList.get_last_child()
-        if (last) messageList.remove(last)
-
-        const msg: Message = { role: "assistant", content: reply, time: now() }
-        conversationHistory.push(msg)
-        renderMessage(msg)
-      })
-      .catch(() => {
-        const last = messageList.get_last_child()
-        if (last) messageList.remove(last)
-
-        renderMessage({
-          role: "assistant",
-          content: "the ravens failed to deliver. is the proxy running?",
-          time: now(),
-        })
-      })
+    conversationHistory.push(assistantMsg)
+    renderMessage(assistantMsg)
   }
 
   sendBtn.connect("clicked", handleSend)
 
   const keyCtrl = new Gtk.EventControllerKey()
   keyCtrl.connect("key-pressed", (_ctrl, keyval, _code, state) => {
-    const enter = keyval === 0xff0d || keyval === 0xff8d
-    const shift = state & Gdk.ModifierType.SHIFT_MASK
-    if (enter && !shift) {
+    const isEnter = keyval === Gdk.KEY_Return || keyval === Gdk.KEY_KP_Enter
+    if (isEnter && !(state & Gdk.ModifierType.SHIFT_MASK)) {
       handleSend()
       return true
     }
@@ -339,32 +341,37 @@ export default function AIChat() {
   })
   input.add_controller(keyCtrl)
 
+  function now(): string {
+    const d = new Date()
+    return `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`
+  }
+
+  // Main Button
   const btn = new Gtk.Button({ cssClasses: ["logo-btn"] })
-  btn.set_halign(Gtk.Align.CENTER)
   btn.set_child(new Gtk.Label({ label: "鬼", cssClasses: ["logo"] }))
 
-  btn.connect("realize", () => {
-    popover.set_parent(btn)
-  })
+  btn.connect("realize", () => popover.set_parent(btn))
 
   btn.connect("clicked", () => {
     if (popover.get_visible()) {
       popover.popdown()
     } else {
-      let child = messageList.get_first_child()
-      while (child) {
-        const next = child.get_next_sibling()
-        messageList.remove(child)
-        child = next
-      }
-      renderGreeting()
-      conversationHistory.forEach(renderMessage)
+      loadModelFromConfig()
+        .then(() => {
+          updateTabs()
+          clearMessageList()
+          renderGreeting()
+          conversationHistory.forEach(renderMessage)
 
-      popover.popup()
-      GLib.timeout_add(GLib.PRIORITY_DEFAULT, 50, () => {
-        input.grab_focus()
-        return GLib.SOURCE_REMOVE
-      })
+          popover.popup()
+
+          // Aggressive focus
+          GLib.timeout_add(GLib.PRIORITY_DEFAULT, 150, () => {
+            input.grab_focus()
+            return GLib.SOURCE_REMOVE
+          })
+        })
+        .catch(console.error)
     }
   })
 

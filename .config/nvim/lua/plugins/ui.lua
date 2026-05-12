@@ -33,9 +33,12 @@ return {
     opts = {
       options = {
         mode = "tabs",
-        separator_style = "slant",
+        separator_style = "thick",
         show_buffer_close_icons = true,
         show_close_icon = false,
+        max_name_length = 18,
+        tab_size = 18,
+        enforce_regular_tabs = true,
       },
     },
   },
@@ -111,8 +114,8 @@ return {
         preset = {
           header = [[
 
-___    __                     _       __      ____            
-   /   |  / /_  __  __________   | |     / /___ _/ / /_____  _____
+    ___    __                      _       __      ____            
+   /   |  / /_  __  __________    | |     / /___ _/ / /_____  _____
   / /| | / __ \/ / / / ___/ ___/  | | /| / / __ `/ / //_/ _ \/ ___/
  / ___ |/ /_/ / /_/ (__  |__  )   | |/ |/ / /_/ / / ,< /  __/ /    
 /_/  |_/_.___/\__, /____/____/    |__/|__/\__,_/_/_/|_|\___/_/     

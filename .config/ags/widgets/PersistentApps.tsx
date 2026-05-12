@@ -7,11 +7,16 @@ const HyprlandModule = await import("gi://AstalHyprland")
 const Hyprland = HyprlandModule.default.get_default()
 
 const PERSISTENT_APPS = [
-  { class: "vesktop", icon: "discord", title: "Vesktop" },
+  { class: "vesktop", icon: "vesktop", title: "Vesktop" },
   { class: "Steam", icon: "steam", title: "Steam" },
   { class: "qBittorrent", icon: "qbittorrent", title: "qBittorrent" },
   { class: "TelegramDesktop", icon: "telegram", title: "Telegram" },
   { class: "org.keepassxc.KeePassXC", icon: "keepassxc", title: "KeePassXC" },
+  {
+    class: "org.kde.kdeconnect.app",
+    icon: "kdeconnect",
+    title: "KDE Connect",
+  },
 ]
 
 // Add a state to track visibility count

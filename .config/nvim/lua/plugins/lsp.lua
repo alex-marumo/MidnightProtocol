@@ -13,6 +13,7 @@ return {
         "tailwindcss-language-server",
         "typescript-language-server",
         "css-lsp",
+        "lemminx",
       },
     },
   },
@@ -70,8 +71,9 @@ return {
             },
           },
         },
+        lemminx = {},
       },
-      -- Custom keymaps (Correct Way)
+      -- Custom keymaps
       keys = {
         {
           "gd",
