@@ -62,7 +62,7 @@ export function recordHistory(item: ProviderResult & { executable?: string }) {
   }
 
   history.sort((a, b) => b.score - a.score)
-  if (history.length > 30) history.pop()
+  if (history.length > 50) history.pop()
   saveHistory()
 }
 

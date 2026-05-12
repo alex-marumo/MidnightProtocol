@@ -103,12 +103,19 @@ export default function appsProvider(query: string): ProviderResult[] {
 
   if (!query) {
     return apps
-      .map((app) => ({ app, score: getRanking(app.name) || 0 }))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 10)
+      .map((app) => ({
+        app,
+        score: getRanking(app.name) || 0,
+      }))
+      .sort((a, b) => {
+        const scoreDiff = b.score - a.score
+        return scoreDiff !== 0
+          ? scoreDiff
+          : a.app.name.localeCompare(b.app.name)
+      })
       .map((r) => ({
         title: r.app.name,
-        subtitle: r.app.description || undefined,
+        subtitle: r.app.description || r.app.exec?.split(" ")[0] || "",
         icon: r.app.icon,
         score: r.score,
         action: r.app.launch,

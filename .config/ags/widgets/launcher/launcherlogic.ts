@@ -27,51 +27,34 @@ const providers = [
 
 let queryToken = 0
 
-export async function queryLauncher(query: string): Promise<ProviderResult[]> {
-  const token = ++queryToken
+export async function queryLauncher(query: string, tab: string = "history"): Promise<ProviderResult[]> {
   const q = query.trim()
-  if (!q) return await historyProvider("")
 
-  let results: ProviderResult[] = []
-
-  // ── 1. MATH CHECK (Soft Intercept) ────────────────────────
-  // add math results to the list but don't stop the function
-  if (/[0-9]/.test(q) && /[+\-*/%^]/.test(q)) {
-    const calcResults = await calcProvider(q)
-    if (calcResults.length > 0) {
-      results.push(...calcResults)
+  try {
+    switch (tab) {
+      case "history":
+        return historyProvider(q)
+      case "apps":
+        const apps = appsProvider(q)
+        console.log(`[apps] query="${q}" returned ${apps.length} results`)
+        return apps
+      case "run":
+        return runProvider(q)
+      case "files":
+        return filesProvider(q)
+      case "web":
+        return webProvider(q)
+      case "windows":
+        return windowsProvider(q)
+      case "calc":
+        return await calcProvider(q)
+      default:
+        return historyProvider(q)
     }
+  } catch (err) {
+    console.error("Provider error:", err)
+    return []
   }
-
-  // ── 2. STANDARD SEARCH ────────────────────────────────────
-  const providerResults = await Promise.all(
-    providers.map(async (p) => {
-      try {
-        let res = p(query)
-        if (res instanceof Promise) res = await res
-        return (res as ProviderResult[]).map((item) => ({
-          ...item,
-          icon: item.icon || getFallbackIcon(item),
-        }))
-      } catch {
-        return []
-      }
-    }),
-  )
-
-  if (token !== queryToken) return []
-
-  // Combine math with apps, files, etc.
-  results = [...results, ...providerResults.flat()]
-
-  // ── 3. SMART SORTING ──────────────────────────────────────
-  results.sort((a, b) => {
-    const scoreDiff = (b.score || 0) - (a.score || 0)
-    if (scoreDiff !== 0) return scoreDiff
-    return a.title.localeCompare(b.title)
-  })
-
-  return results
 }
 
 export function execute(entry: ProviderResult) {
@@ -86,4 +69,3 @@ function getFallbackIcon(item: ProviderResult): string {
   if (item.subtitle?.startsWith("/")) return "folder-symbolic"
   return "system-run-symbolic"
 }
-
