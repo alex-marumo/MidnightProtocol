@@ -17,6 +17,7 @@ const PERSISTENT_APPS = [
     icon: "kdeconnect",
     title: "KDE Connect",
   },
+  { class: "protonvpn-app", icon: "proton-vpn-logo", title: "Proton VPN" },
 ]
 
 // Add a state to track visibility count
